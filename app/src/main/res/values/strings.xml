@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">MIRTest</string>
+
+    <!--Login screen-->
+    <string name="title_login">Вход</string>
+    <string name="title_button_login">Войти</string>
+    <string name="hint_input_email">Электронная почта</string>
+    <string name="hint_input_password">Пароль</string>
+</resources>
