@@ -10,18 +10,10 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class LoginRepositoryImpl implements LoginRepository {
 
-
     private Api api;
 
-
-    public LoginRepositoryImpl() {
-        api = new Retrofit.Builder()
-                .baseUrl("https://medicapp.mhth.ru/")
-                //.client(new OkHttpClient())
-                .addConverterFactory(GsonConverterFactory.create())
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .build()
-                .create(Api.class);
+    public LoginRepositoryImpl(Api api) {
+        this.api = api;
     }
 
     @Override
