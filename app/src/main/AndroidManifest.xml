@@ -23,5 +23,7 @@
         </activity>
 
 
+        <activity android:name=".ui.activity.NewsContainerActivity" />
+
     </application>
 </manifest>

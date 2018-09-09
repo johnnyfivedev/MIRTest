@@ -1,13 +1,10 @@
 package com.johnnyfivedev.mirtest;
 
 import android.app.Application;
-import android.content.Context;
 
 import com.johnnyfivedev.mirtest.di.application.ApplicationComponent;
 import com.johnnyfivedev.mirtest.di.application.ApplicationModule;
 import com.johnnyfivedev.mirtest.di.application.DaggerApplicationComponent;
-
-import io.reactivex.plugins.RxJavaPlugins;
 
 
 public class MirApplication extends Application {

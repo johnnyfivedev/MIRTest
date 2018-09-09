@@ -1,7 +1,7 @@
-package com.johnnyfivedev.mirtest.di.feature;
+package com.johnnyfivedev.mirtest.di.feature.login;
 
 import com.johnnyfivedev.domain.usecase.login.LoginUseCase;
-import com.johnnyfivedev.mirtest.di.scope.PresenterScope;
+import com.johnnyfivedev.mirtest.di.scope.LoginScope;
 import com.johnnyfivedev.mirtest.presentation.presenter.LoginPresenter;
 
 import dagger.Module;
@@ -11,7 +11,7 @@ import dagger.Provides;
 public class LoginModule {
 
     @Provides
-    @PresenterScope
+    @LoginScope
     LoginPresenter providePresenter(LoginUseCase loginUseCase) {
         return new LoginPresenter(loginUseCase);
     }

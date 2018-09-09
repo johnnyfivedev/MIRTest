@@ -1,16 +1,15 @@
 package com.johnnyfivedev.mirtest.ui.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.view.menu.MenuPresenter;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.johnnyfivedev.mirtest.R;
-import com.johnnyfivedev.mirtest.di.feature.LoginModule;
+import com.johnnyfivedev.mirtest.di.feature.login.LoginModule;
 import com.johnnyfivedev.mirtest.presentation.presenter.LoginPresenter;
 import com.johnnyfivedev.mirtest.presentation.view.LoginView;
 
@@ -54,9 +53,18 @@ public class LoginActivity extends BaseMvpAppCompatActivity implements LoginView
 
     //endregion
 
+    //region ===================== View ======================
+
+    @Override
+    public void openNewsScreen() {
+        startActivity(new Intent(this, NewsContainerActivity.class));
+    }
+
+    //endregion
+
     //region ===================== DI ======================
 
-    public void initDI() {
+    private void initDI() {
         getAppComponent().plus(new LoginModule())
                 .inject(this);
     }

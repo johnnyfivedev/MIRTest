@@ -45,6 +45,7 @@ public class LoginPresenter extends BaseDisposablePresenter<LoginView> {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(o -> {
                             Object qwe = o;
+                            getViewState().openNewsScreen();
                         },
                         Throwable::printStackTrace));
     }

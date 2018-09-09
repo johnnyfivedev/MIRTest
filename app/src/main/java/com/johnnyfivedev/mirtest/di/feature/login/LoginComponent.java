@@ -1,11 +1,11 @@
-package com.johnnyfivedev.mirtest.di.feature;
+package com.johnnyfivedev.mirtest.di.feature.login;
 
-import com.johnnyfivedev.mirtest.di.scope.PresenterScope;
+import com.johnnyfivedev.mirtest.di.scope.LoginScope;
 import com.johnnyfivedev.mirtest.ui.activity.LoginActivity;
 
 import dagger.Subcomponent;
 
-@PresenterScope
+@LoginScope
 @Subcomponent(modules = {LoginModule.class})
 public interface LoginComponent {
 
