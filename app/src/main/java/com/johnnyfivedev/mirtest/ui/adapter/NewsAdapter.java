@@ -6,8 +6,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.johnnyfivedev.domain.entity.news.NewsItem;
 import com.johnnyfivedev.mirtest.R;
 
@@ -39,6 +41,11 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsItemViewHo
         holder.tvCategory.setText(newsItem.getNewsCategory().getTitle());
         holder.tvTitle.setText(newsItem.getTitle());
         holder.tvCreationDate.setText(newsItem.getCreationDateFormatted());
+
+        Glide.with(context)
+                .load(newsItem.getThumbnailUrl())
+                .into(holder.ivThumbnail);
+
     }
 
     @Override
@@ -59,6 +66,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsItemViewHo
         TextView tvCategory;
         TextView tvTitle;
         TextView tvCreationDate;
+        ImageView ivThumbnail;
 
         NewsItemViewHolder(View itemView) {
             super(itemView);
@@ -66,8 +74,9 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsItemViewHo
             tvCategory = itemView.findViewById(R.id.tv_category);
             tvTitle = itemView.findViewById(R.id.tv_title);
             tvCreationDate = itemView.findViewById(R.id.tv_creation_date);
+            ivThumbnail = itemView.findViewById(R.id.iv_thumbnail);
         }
-    }
 
-    //endregion
+        //endregion
+    }
 }
