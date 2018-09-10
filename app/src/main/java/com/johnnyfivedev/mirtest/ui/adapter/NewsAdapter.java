@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.johnnyfivedev.domain.entity.news.NewsItem;
 import com.johnnyfivedev.mirtest.R;
 
 import java.util.ArrayList;
@@ -16,7 +17,7 @@ import java.util.List;
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsItemViewHolder> {
 
     private Context context;
-    private List<Object> items;
+    private List<NewsItem> items;
 
 
     public NewsAdapter(Context context) {
@@ -34,7 +35,10 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsItemViewHo
 
     @Override
     public void onBindViewHolder(@NonNull NewsItemViewHolder holder, int position) {
-
+        NewsItem newsItem = items.get(position);
+        holder.tvCategory.setText(newsItem.getNewsCategory().getTitle());
+        holder.tvTitle.setText(newsItem.getTitle());
+        holder.tvCreationDate.setText(newsItem.getCreationDateFormatted());
     }
 
     @Override
@@ -42,8 +46,9 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsItemViewHo
         return items.size();
     }
 
-    public void swapItems(List<Object> newItems) {
+    public void swapItems(List<NewsItem> newItems) {
         items = newItems;
+        notifyDataSetChanged();
     }
 
     //endregion
@@ -51,10 +56,16 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsItemViewHo
     //region ===================== ViewHolder ======================
 
     static class NewsItemViewHolder extends RecyclerView.ViewHolder {
-        TextView mTextView;
+        TextView tvCategory;
+        TextView tvTitle;
+        TextView tvCreationDate;
 
         NewsItemViewHolder(View itemView) {
             super(itemView);
+
+            tvCategory = itemView.findViewById(R.id.tv_category);
+            tvTitle = itemView.findViewById(R.id.tv_title);
+            tvCreationDate = itemView.findViewById(R.id.tv_creation_date);
         }
     }
 

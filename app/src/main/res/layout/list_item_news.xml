@@ -6,7 +6,7 @@
     android:layout_height="wrap_content">
 
     <TextView
-        android:id="@+id/tv_tag"
+        android:id="@+id/tv_category"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
@@ -14,12 +14,12 @@
         android:layout_marginTop="16dp"
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
-        android:text="наука"
         android:textColor="@color/cyan"
         app:layout_constraintEnd_toStartOf="@+id/guideline_text"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="наука" />
 
     <TextView
         android:id="@+id/tv_title"
@@ -29,25 +29,25 @@
         android:layout_marginTop="20dp"
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
-        android:text="Почему так много людей ненавидит свою работу, и что с этим можно сделать"
         android:textColor="@color/black"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="@+id/guideline_text"
-        app:layout_constraintTop_toBottomOf="@+id/tv_tag" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_category"
+        tools:text="Почему так много людей ненавидит свою работу, и что с этим можно сделать" />
 
     <TextView
-        android:id="@+id/tv_publish_date"
+        android:id="@+id/tv_creation_date"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
-        android:text="21 июня 2018б 11:45"
         android:textColor="@color/grey"
         app:layout_constraintRight_toRightOf="@+id/guideline_text"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_title" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_title"
+        tools:text="21 июня 2018б 11:45" />
 
     <View
         android:id="@+id/divider"
@@ -57,7 +57,7 @@
         android:background="@color/grey"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="@+id/guideline_text"
-        app:layout_constraintTop_toBottomOf="@+id/tv_publish_date" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_creation_date" />
 
     <android.support.constraint.Guideline
         android:id="@+id/guideline_text"
@@ -67,14 +67,15 @@
         app:layout_constraintGuide_percent="0.6510417" />
 
     <android.support.v7.widget.AppCompatImageView
+        android:id="@+id/iv_image"
         android:layout_width="100dp"
         android:layout_height="60dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
-        android:background="@color/cyan"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/guideline_text"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:background="@color/cyan" />
 
 </android.support.constraint.ConstraintLayout>

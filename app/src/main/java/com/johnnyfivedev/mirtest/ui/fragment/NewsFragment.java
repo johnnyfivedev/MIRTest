@@ -2,16 +2,15 @@ package com.johnnyfivedev.mirtest.ui.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v7.view.menu.MenuAdapter;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
+import com.johnnyfivedev.domain.entity.news.NewsItem;
 import com.johnnyfivedev.mirtest.R;
 import com.johnnyfivedev.mirtest.di.feature.news.NewsModule;
 import com.johnnyfivedev.mirtest.presentation.presenter.NewsPresenter;
@@ -75,7 +74,7 @@ public class NewsFragment extends BaseFragment implements NewsView {
     //region ===================== View ======================
 
     @Override
-    public void showNews(List<Object> news) {
+    public void showNews(List<NewsItem> news) {
         adapter.swapItems(news);
     }
 
@@ -94,9 +93,7 @@ public class NewsFragment extends BaseFragment implements NewsView {
 
     public void initUI(View itemView) {
         //setupToolbar(itemView, R.string.toolbar_title_about_app, null, true, btnCloseClickListener);
-
         rvNews = itemView.findViewById(R.id.rv_news);
-
 
         rvNews.setItemAnimator(null);
         rvNews.setLayoutManager(new LinearLayoutManager(getActivity()));

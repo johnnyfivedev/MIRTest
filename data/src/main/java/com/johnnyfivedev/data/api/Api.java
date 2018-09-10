@@ -1,15 +1,12 @@
 package com.johnnyfivedev.data.api;
 
-import io.reactivex.Single;
-import retrofit2.http.Field;
-import retrofit2.http.FormUrlEncoded;
-import retrofit2.http.POST;
+import com.johnnyfivedev.domain.entity.news.network.NewsResponse;
+
+import io.reactivex.Observable;
+import retrofit2.http.GET;
 
 public interface Api {
 
-    @FormUrlEncoded
-    @POST("oauth/token")
-    Single<Object> login(@Field("username") String login,
-                         @Field("password") String password,
-                         @Field("grant_type") String grantType);
+    @GET("news?page=1per=10")
+    Observable<NewsResponse> getNews();
 }
