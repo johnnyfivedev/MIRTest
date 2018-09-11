@@ -3,24 +3,17 @@ package com.johnnyfivedev.mirtest.di.application;
 import android.content.Context;
 
 import com.johnnyfivedev.data.api.Api;
-import com.johnnyfivedev.data.api.LoginApi;
 import com.johnnyfivedev.localstorage.LocalStorageService;
 import com.johnnyfivedev.localstorage.LocalStorageServiceImpl;
 import com.johnnyfivedev.mirtest.MirApplication;
+import com.johnnyfivedev.mirtest.OkHttpClientFactory;
 import com.johnnyfivedev.mirtest.ServerUrls;
 import com.johnnyfivedev.mirtest.gson.GsonFactory;
-
-import java.io.IOException;
 
 import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
-import okhttp3.Interceptor;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
-import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -43,13 +36,9 @@ public class ApplicationModule {
     @Provides
     @Singleton
     Api provideApi() {
-        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
-        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-        OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor).build();
-
         return new Retrofit.Builder()
                 .baseUrl(ServerUrls.API_BASE_URL)
-                .client(client)
+                .client(OkHttpClientFactory.create())
                 .addConverterFactory(GsonConverterFactory.create(GsonFactory.getNetworkGsonConverter()))
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build()

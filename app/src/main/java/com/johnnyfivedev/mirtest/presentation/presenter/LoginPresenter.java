@@ -54,7 +54,9 @@ public class LoginPresenter extends BaseDisposablePresenter<LoginView> {
                 .subscribe(loginResult -> {
                             getViewState().openNewsScreen();
                         },
-                        Throwable::printStackTrace));
+                        throwable -> {
+                            throwable.printStackTrace();
+                        }));
     }
 
     //endregion

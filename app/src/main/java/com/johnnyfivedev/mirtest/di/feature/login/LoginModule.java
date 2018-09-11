@@ -6,12 +6,20 @@ import com.johnnyfivedev.domain.repository.LoginRepository;
 import com.johnnyfivedev.domain.usecase.login.IsAuthorizedUseCase;
 import com.johnnyfivedev.domain.usecase.login.LoginUseCase;
 import com.johnnyfivedev.localstorage.LocalStorageService;
+import com.johnnyfivedev.mirtest.OkHttpClientFactory;
 import com.johnnyfivedev.mirtest.ServerUrls;
 import com.johnnyfivedev.mirtest.di.scope.LoginScope;
 import com.johnnyfivedev.mirtest.presentation.presenter.LoginPresenter;
 
+import java.util.Collections;
+
 import dagger.Module;
 import dagger.Provides;
+import okhttp3.CipherSuite;
+import okhttp3.ConnectionSpec;
+import okhttp3.OkHttpClient;
+import okhttp3.TlsVersion;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -31,6 +39,7 @@ public class LoginModule {
     LoginApi provideLoginApi() {
         return new Retrofit.Builder()
                 .baseUrl(ServerUrls.LOGIN_BASE_URL)
+                .client(OkHttpClientFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build()
