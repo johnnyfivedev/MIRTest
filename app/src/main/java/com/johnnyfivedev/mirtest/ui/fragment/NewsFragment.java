@@ -2,6 +2,8 @@ package com.johnnyfivedev.mirtest.ui.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,6 +13,7 @@ import android.view.ViewGroup;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.johnnyfivedev.domain.entity.news.NewsItem;
+import com.johnnyfivedev.mirtest.ListItemClickListener;
 import com.johnnyfivedev.mirtest.R;
 import com.johnnyfivedev.mirtest.di.feature.news.NewsModule;
 import com.johnnyfivedev.mirtest.presentation.presenter.NewsPresenter;
@@ -31,7 +34,7 @@ public class NewsFragment extends BaseFragment implements NewsView {
     Provider<NewsPresenter> presenterProvider;
 
     @ProvidePresenter
-    NewsPresenter provideNewsPresenter() {
+    NewsPresenter providePresenter() {
         return presenterProvider.get();
     }
 
@@ -69,6 +72,12 @@ public class NewsFragment extends BaseFragment implements NewsView {
 
     //region ==================== Callbacks ====================
 
+    private ListItemClickListener newsItemClickListener = (data, position) -> {
+        if (data instanceof Long) {
+            presenter.onNewsItemClicked((Long) data);
+        }
+    };
+
     //endregion
 
     //region ===================== View ======================
@@ -78,12 +87,23 @@ public class NewsFragment extends BaseFragment implements NewsView {
         adapter.swapItems(news);
     }
 
+    @Override
+    public void openNewsDetailScreen(Long newsItemId) {
+        if (getActivity() != null) {
+            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.fragment_news_layout_container, NewsDetailedFragment.newInstance(newsItemId));
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commit();
+        }
+    }
+
     //endregion
 
     //region ===================== DI =====================
 
     public void initDI() {
-        getAppComponent().plus(new NewsModule(getActivity()))
+        getAppComponent().plus(new NewsModule(getActivity(), newsItemClickListener))
                 .inject(this);
     }
 

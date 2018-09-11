@@ -2,24 +2,20 @@ package com.johnnyfivedev.mirtest.presentation.presenter;
 
 import com.arellomobile.mvp.InjectViewState;
 import com.johnnyfivedev.domain.usecase.news.GetNewsUseCase;
+import com.johnnyfivedev.mirtest.presentation.view.NewsDetailedView;
 import com.johnnyfivedev.mirtest.presentation.view.NewsView;
 
-import java.util.Arrays;
-import java.util.List;
-
-import io.reactivex.Scheduler;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
 @InjectViewState
-public class NewsPresenter extends BaseDisposablePresenter<NewsView> {
+public class NewsDetailedPresenter extends BaseDisposablePresenter<NewsDetailedView> {
 
-    private final GetNewsUseCase getNewsUseCase;
+    private Long newsItemId;
 
 
-    public NewsPresenter(GetNewsUseCase getNewsUseCase) {
-        this.getNewsUseCase = getNewsUseCase;
+    public NewsDetailedPresenter(Long newsItemId) {
+        this.newsItemId = newsItemId;
     }
 
     //region ===================== Lifecycle ======================
@@ -28,22 +24,20 @@ public class NewsPresenter extends BaseDisposablePresenter<NewsView> {
     protected void onFirstViewAttach() {
         super.onFirstViewAttach();
 
-        disposeOnDestroy(getNewsUseCase.buildUseCaseObservable()
+        /*disposeOnDestroy(getNewsUseCase.buildUseCaseObservable()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(news -> {
                     getViewState().showNews(news);
                 }, Throwable::printStackTrace)
         );
+    }*/
+
+        //endregion
+
+        //region ===================== Presenter ======================
+
+
+        //endregion
     }
-
-    //endregion
-
-    //region ===================== Presenter ======================
-
-    public void onNewsItemClicked(Long newsItemId) {
-        getViewState().openNewsDetailScreen(newsItemId);
-    }
-
-    //endregion
 }

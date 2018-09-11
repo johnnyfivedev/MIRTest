@@ -6,6 +6,8 @@ import com.johnnyfivedev.mirtest.di.feature.news.NewsComponent;
 import com.johnnyfivedev.mirtest.di.feature.news.NewsModule;
 import com.johnnyfivedev.mirtest.di.feature.newscontainer.NewsContainerComponent;
 import com.johnnyfivedev.mirtest.di.feature.newscontainer.NewsContainerModule;
+import com.johnnyfivedev.mirtest.di.feature.newsdetailed.NewsDetailedComponent;
+import com.johnnyfivedev.mirtest.di.feature.newsdetailed.NewsDetailedModule;
 import com.johnnyfivedev.mirtest.ui.fragment.NewsFragment;
 
 import javax.inject.Singleton;
@@ -26,4 +28,6 @@ public interface ApplicationComponent {
     NewsContainerComponent plus(NewsContainerModule module);
 
     NewsComponent plus(NewsModule module);
+
+    NewsDetailedComponent plus(NewsDetailedModule module);
 }

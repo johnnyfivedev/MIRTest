@@ -48,7 +48,7 @@ public class NewsContainerActivity extends BaseMvpAppCompatActivity implements N
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.addToBackStack(NewsFragment.class.getName());
-        fragmentTransaction.add(R.id.fragment_news_layout_container, new NewsFragment());
+        fragmentTransaction.add(R.id.fragment_news_layout_container, NewsFragment.newInstance());
         fragmentTransaction.commit();
     }
 

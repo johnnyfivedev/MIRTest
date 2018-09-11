@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.johnnyfivedev.domain.entity.news.NewsItem;
+import com.johnnyfivedev.mirtest.ListItemClickListener;
 import com.johnnyfivedev.mirtest.R;
 
 import java.util.ArrayList;
@@ -19,11 +20,14 @@ import java.util.List;
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsItemViewHolder> {
 
     private Context context;
+    private ListItemClickListener listItemClickListener;
     private List<NewsItem> items;
 
 
-    public NewsAdapter(Context context) {
+    public NewsAdapter(Context context,
+                       ListItemClickListener listItemClickListener) {
         this.context = context;
+        this.listItemClickListener = listItemClickListener;
         this.items = new ArrayList<>();
     }
 
@@ -38,6 +42,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsItemViewHo
     @Override
     public void onBindViewHolder(@NonNull NewsItemViewHolder holder, int position) {
         NewsItem newsItem = items.get(position);
+
         holder.tvCategory.setText(newsItem.getNewsCategory().getTitle());
         holder.tvTitle.setText(newsItem.getTitle());
         holder.tvCreationDate.setText(newsItem.getCreationDateFormatted());
@@ -46,6 +51,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsItemViewHo
                 .load(newsItem.getThumbnailUrl())
                 .into(holder.ivThumbnail);
 
+        holder.itemView.setOnClickListener(v -> listItemClickListener.onItemClicked(newsItem.getId(), position));
     }
 
     @Override
