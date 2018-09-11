@@ -58,6 +58,7 @@ public class LoginActivity extends BaseMvpAppCompatActivity implements LoginView
     @Override
     public void openNewsScreen() {
         startActivity(new Intent(this, NewsContainerActivity.class));
+        finish();
     }
 
     //endregion

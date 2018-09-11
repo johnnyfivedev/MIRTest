@@ -78,6 +78,8 @@ public class NewsFragment extends BaseFragment implements NewsView {
         }
     };
 
+
+
     //endregion
 
     //region ===================== View ======================

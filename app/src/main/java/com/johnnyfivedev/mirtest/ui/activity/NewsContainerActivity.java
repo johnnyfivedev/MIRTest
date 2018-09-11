@@ -41,13 +41,27 @@ public class NewsContainerActivity extends BaseMvpAppCompatActivity implements N
 
     //endregion
 
+    //region ===================== Callbacks ======================
+
+    @Override
+    public void onBackPressed() {
+        int count = getSupportFragmentManager().getBackStackEntryCount();
+        if (count == 1) {
+            finish();
+        } else {
+            getSupportFragmentManager().popBackStack();
+        }
+    }
+
+    //endregion
+
     //region ===================== View ======================
 
     @Override
     public void openNewsScreen() {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.addToBackStack(NewsFragment.class.getName());
+        fragmentTransaction.addToBackStack(null);
         fragmentTransaction.add(R.id.fragment_news_layout_container, NewsFragment.newInstance());
         fragmentTransaction.commit();
     }
