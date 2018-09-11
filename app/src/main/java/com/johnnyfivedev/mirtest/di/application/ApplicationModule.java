@@ -21,12 +21,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 @Module
 public class ApplicationModule {
 
-    //private final Cicerone<Router> cicerone;
-
-    public ApplicationModule() {
-        //this.cicerone = Cicerone.create();
-    }
-
     @Provides
     @Singleton
     Context provideApplicationContext() {

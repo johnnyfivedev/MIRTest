@@ -20,6 +20,7 @@ public class OkHttpClientFactory {
                 .addInterceptor(interceptor);
 
         // Bug fix on Android API < 21
+        // see https://github.com/square/okhttp/issues/3894
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
             ConnectionSpec spec = new ConnectionSpec.Builder(ConnectionSpec.COMPATIBLE_TLS)
                     .tlsVersions(TlsVersion.TLS_1_2, TlsVersion.TLS_1_1, TlsVersion.TLS_1_0)
