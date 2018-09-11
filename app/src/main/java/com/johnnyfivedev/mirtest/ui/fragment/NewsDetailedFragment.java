@@ -2,11 +2,8 @@ package com.johnnyfivedev.mirtest.ui.fragment;
 
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v7.widget.Toolbar;
-import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -15,7 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
@@ -95,10 +91,9 @@ public class NewsDetailedFragment extends BaseFragment implements NewsDetailedVi
         presenter.onSourceClicked();
     };
 
-
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.news_menu, menu);
+        inflater.inflate(R.menu.news_detailed_menu, menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
 

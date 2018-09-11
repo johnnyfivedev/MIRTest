@@ -1,12 +1,14 @@
 package com.johnnyfivedev.mirtest.presentation.presenter;
 
 import com.arellomobile.mvp.InjectViewState;
+import com.johnnyfivedev.domain.entity.news.NewsItem;
 import com.johnnyfivedev.domain.usecase.news.GetNewsUseCase;
 import com.johnnyfivedev.mirtest.presentation.view.NewsView;
 
 import java.util.Arrays;
 import java.util.List;
 
+import io.reactivex.Observable;
 import io.reactivex.Scheduler;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
@@ -27,14 +29,9 @@ public class NewsPresenter extends BaseDisposablePresenter<NewsView> {
     @Override
     protected void onFirstViewAttach() {
         super.onFirstViewAttach();
-
-        disposeOnDestroy(getNewsUseCase.buildUseCaseObservable()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(news -> {
-                    getViewState().showNews(news);
-                }, Throwable::printStackTrace)
-        );
+        disposeOnDestroy(getNewsObservable().subscribe(newsItems -> {
+            getViewState().showNews(newsItems);
+        }, Throwable::printStackTrace));
     }
 
     //endregion
@@ -43,6 +40,23 @@ public class NewsPresenter extends BaseDisposablePresenter<NewsView> {
 
     public void onNewsItemClicked(Long newsItemId) {
         getViewState().openNewsDetailScreen(newsItemId);
+    }
+
+    public void onRefreshClicked() {
+        disposeOnDestroy(getNewsObservable().subscribe(newsItems -> {
+            getViewState().showNews(newsItems);
+            getViewState().showMessage();
+        }, Throwable::printStackTrace));
+    }
+
+    //endregion
+
+    //region ===================== Internal ======================
+
+    private Observable<List<NewsItem>> getNewsObservable() {
+        return getNewsUseCase.buildUseCaseObservable()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
     }
 
     //endregion

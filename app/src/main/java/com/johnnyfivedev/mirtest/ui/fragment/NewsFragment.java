@@ -7,8 +7,12 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
@@ -58,6 +62,7 @@ public class NewsFragment extends BaseFragment implements NewsView {
     public void onCreate(Bundle savedInstanceState) {
         initDI();
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
     }
 
     @Override
@@ -78,7 +83,23 @@ public class NewsFragment extends BaseFragment implements NewsView {
         }
     };
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.news_menu, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.action_refresh) {
+            presenter.onRefreshClicked();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
 
     //endregion
 
@@ -100,6 +121,11 @@ public class NewsFragment extends BaseFragment implements NewsView {
         }
     }
 
+    @Override
+    public void showMessage() {
+        Toast.makeText(getContext(), R.string.data_reloaded, Toast.LENGTH_SHORT).show();
+    }
+
     //endregion
 
     //region ===================== DI =====================
@@ -114,7 +140,12 @@ public class NewsFragment extends BaseFragment implements NewsView {
     //region ===================== UI ======================
 
     public void initUI(View itemView) {
-        //setupToolbar(itemView, R.string.toolbar_title_about_app, null, true, btnCloseClickListener);
+        setupToolbar(itemView,
+                R.string.news,
+                null,
+                false,
+                null);
+
         rvNews = itemView.findViewById(R.id.rv_news);
 
         rvNews.setItemAnimator(null);

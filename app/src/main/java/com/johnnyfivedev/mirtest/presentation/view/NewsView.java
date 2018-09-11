@@ -14,4 +14,7 @@ public interface NewsView extends MvpView {
 
     @StateStrategyType(OneExecutionStateStrategy.class)
     void openNewsDetailScreen(Long newsItemId);
+
+    @StateStrategyType(OneExecutionStateStrategy.class)
+    void showMessage();
 }
