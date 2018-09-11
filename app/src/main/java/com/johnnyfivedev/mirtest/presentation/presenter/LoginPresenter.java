@@ -1,27 +1,25 @@
 package com.johnnyfivedev.mirtest.presentation.presenter;
 
 import com.arellomobile.mvp.InjectViewState;
-import com.johnnyfivedev.data.repositoryimpl.LoginRepositoryImpl;
-import com.johnnyfivedev.domain.repository.LoginRepository;
+import com.johnnyfivedev.domain.usecase.login.IsAuthorizedUseCase;
 import com.johnnyfivedev.domain.usecase.login.LoginUseCase;
 import com.johnnyfivedev.domain.usecase.login.LoginUseCaseParams;
 import com.johnnyfivedev.mirtest.presentation.view.LoginView;
 
-import javax.inject.Inject;
-
-import io.reactivex.Scheduler;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
 @InjectViewState
 public class LoginPresenter extends BaseDisposablePresenter<LoginView> {
 
     private final LoginUseCase loginUseCase;
+    private final IsAuthorizedUseCase isAuthorizedUseCase;
 
 
-    public LoginPresenter(LoginUseCase loginUseCase) {
+    public LoginPresenter(LoginUseCase loginUseCase,
+                          IsAuthorizedUseCase isAuthorizedUseCase) {
         this.loginUseCase = loginUseCase;
+        this.isAuthorizedUseCase = isAuthorizedUseCase;
     }
 
     //region ===================== Lifecycle ======================
@@ -29,6 +27,16 @@ public class LoginPresenter extends BaseDisposablePresenter<LoginView> {
     @Override
     protected void onFirstViewAttach() {
         super.onFirstViewAttach();
+
+        // Это нужно делать в SplashActivity
+        disposeOnDestroy(isAuthorizedUseCase.buildUseCaseSingle()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(isAuthorized -> {
+                    if (isAuthorized) {
+                        getViewState().openNewsScreen();
+                    }
+                }, Throwable::printStackTrace));
     }
 
     //endregion
@@ -43,8 +51,7 @@ public class LoginPresenter extends BaseDisposablePresenter<LoginView> {
         disposeOnDestroy(loginUseCase.buildUseCaseSingle(loginUseCaseParams)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(o -> {
-                            Object qwe = o;
+                .subscribe(loginResult -> {
                             getViewState().openNewsScreen();
                         },
                         Throwable::printStackTrace));

@@ -4,6 +4,8 @@ import android.content.Context;
 
 import com.johnnyfivedev.data.api.Api;
 import com.johnnyfivedev.data.api.LoginApi;
+import com.johnnyfivedev.localstorage.LocalStorageService;
+import com.johnnyfivedev.localstorage.LocalStorageServiceImpl;
 import com.johnnyfivedev.mirtest.MirApplication;
 import com.johnnyfivedev.mirtest.ServerUrls;
 import com.johnnyfivedev.mirtest.gson.GsonFactory;
@@ -52,5 +54,11 @@ public class ApplicationModule {
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build()
                 .create(Api.class);
+    }
+
+    @Provides
+    @Singleton
+    LocalStorageService provideLocalStorageService() {
+        return new LocalStorageServiceImpl();
     }
 }

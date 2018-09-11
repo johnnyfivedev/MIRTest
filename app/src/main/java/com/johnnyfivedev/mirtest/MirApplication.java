@@ -2,6 +2,7 @@ package com.johnnyfivedev.mirtest;
 
 import android.app.Application;
 
+import com.johnnyfivedev.localstorage.SharedPreferencesWrapper;
 import com.johnnyfivedev.mirtest.di.application.ApplicationComponent;
 import com.johnnyfivedev.mirtest.di.application.ApplicationModule;
 import com.johnnyfivedev.mirtest.di.application.DaggerApplicationComponent;
@@ -28,6 +29,7 @@ public class MirApplication extends Application {
         super.onCreate();
         instance = this;
         initInjector();
+        initSharedPreferencesWrapper();
     }
 
     //endregion
@@ -46,9 +48,11 @@ public class MirApplication extends Application {
         this.applicationComponent = DaggerApplicationComponent.builder()
                 .applicationModule(new ApplicationModule())
                 .build();
-        //ComponentStore.getInstance().setApplicationComponent(this.applicationComponent);
     }
 
+    private void initSharedPreferencesWrapper() {
+        SharedPreferencesWrapper.init(this);
+    }
 
     //endregion
 }

@@ -3,13 +3,12 @@ package com.johnnyfivedev.mirtest.di.feature.login;
 import com.johnnyfivedev.data.api.LoginApi;
 import com.johnnyfivedev.data.repositoryimpl.LoginRepositoryImpl;
 import com.johnnyfivedev.domain.repository.LoginRepository;
+import com.johnnyfivedev.domain.usecase.login.IsAuthorizedUseCase;
 import com.johnnyfivedev.domain.usecase.login.LoginUseCase;
+import com.johnnyfivedev.localstorage.LocalStorageService;
 import com.johnnyfivedev.mirtest.ServerUrls;
 import com.johnnyfivedev.mirtest.di.scope.LoginScope;
 import com.johnnyfivedev.mirtest.presentation.presenter.LoginPresenter;
-
-import javax.inject.Named;
-import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
@@ -22,8 +21,9 @@ public class LoginModule {
 
     @Provides
     @LoginScope
-    LoginPresenter providePresenter(LoginUseCase loginUseCase) {
-        return new LoginPresenter(loginUseCase);
+    LoginPresenter providePresenter(LoginUseCase loginUseCase,
+                                    IsAuthorizedUseCase isAuthorizedUseCase) {
+        return new LoginPresenter(loginUseCase, isAuthorizedUseCase);
     }
 
     @Provides
@@ -39,7 +39,8 @@ public class LoginModule {
 
     @Provides
     @LoginScope
-    LoginRepository provideLoginRepository(LoginApi api) {
-        return new LoginRepositoryImpl(api);
+    LoginRepository provideLoginRepository(LoginApi api,
+                                           LocalStorageService localStorageService) {
+        return new LoginRepositoryImpl(api, localStorageService);
     }
 }
