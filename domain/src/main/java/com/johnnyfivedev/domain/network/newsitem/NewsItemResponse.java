@@ -1,16 +1,16 @@
-package com.johnnyfivedev.domain.entity.news.network;
+package com.johnnyfivedev.domain.network.newsitem;
 
 import com.google.gson.annotations.SerializedName;
 
-public class NewsResponse {
+public class NewsItemResponse {
 
     @SerializedName("data")
-    private NewsData data;
+    private NewsItemData data;
 
 
     //region ===================== Getters ======================
 
-    public NewsData getData() {
+    public NewsItemData getData() {
         return data;
     }
 

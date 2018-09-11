@@ -3,6 +3,7 @@ package com.johnnyfivedev.mirtest.di.feature.newsdetailed;
 import com.johnnyfivedev.data.api.Api;
 import com.johnnyfivedev.data.repositoryimpl.NewsRepositoryImpl;
 import com.johnnyfivedev.domain.repository.NewsRepository;
+import com.johnnyfivedev.domain.usecase.news.GetNewsItemById;
 import com.johnnyfivedev.mirtest.di.scope.NewsScope;
 import com.johnnyfivedev.mirtest.presentation.presenter.NewsDetailedPresenter;
 
@@ -22,8 +23,8 @@ public class NewsDetailedModule {
 
     @Provides
     @NewsScope
-    NewsDetailedPresenter providePresenter() {
-        return new NewsDetailedPresenter(newsItemId);
+    NewsDetailedPresenter providePresenter(GetNewsItemById getNewsItemById) {
+        return new NewsDetailedPresenter(newsItemId, getNewsItemById);
     }
 
     @Provides

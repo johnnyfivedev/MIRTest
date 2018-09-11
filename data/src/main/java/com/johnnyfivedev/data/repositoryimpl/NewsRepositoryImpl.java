@@ -23,7 +23,7 @@ public class NewsRepositoryImpl implements NewsRepository {
     }
 
     @Override
-    public Observable<Object> getNewsItemById(String id) {
-        return null;
+    public Observable<NewsItem> getNewsItemById(Long id) {
+        return api.getNewsById(id).map(newsItemResponse -> newsItemResponse.getData().getNewsItem());
     }
 }

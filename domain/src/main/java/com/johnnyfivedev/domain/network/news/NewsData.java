@@ -1,4 +1,4 @@
-package com.johnnyfivedev.domain.entity.news.network;
+package com.johnnyfivedev.domain.network.news;
 
 import com.google.gson.annotations.SerializedName;
 import com.johnnyfivedev.domain.entity.news.NewsItem;
