@@ -9,4 +9,6 @@ public interface NewsDetailedView extends MvpView {
     void closeScreen();
 
     void openSource(String sourceUrl);
+
+    void changeTextSize();
 }

@@ -52,5 +52,9 @@ public class NewsDetailedPresenter extends BaseDisposablePresenter<NewsDetailedV
         getViewState().openSource(newsItem.getSourceUrl());
     }
 
+    public void onChangeTextSizeButtonClicked() {
+        getViewState().changeTextSize();
+    }
+
     //endregion
 }

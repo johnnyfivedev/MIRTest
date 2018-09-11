@@ -8,10 +8,14 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
@@ -21,6 +25,7 @@ import com.johnnyfivedev.mirtest.R;
 import com.johnnyfivedev.mirtest.di.feature.newsdetailed.NewsDetailedModule;
 import com.johnnyfivedev.mirtest.presentation.presenter.NewsDetailedPresenter;
 import com.johnnyfivedev.mirtest.presentation.view.NewsDetailedView;
+import com.johnnyfivedev.mirtest.ui.widget.SizeSwitchingTextView;
 import com.johnnyfivedev.mirtest.util.UiUtil;
 
 import javax.inject.Inject;
@@ -43,10 +48,10 @@ public class NewsDetailedFragment extends BaseFragment implements NewsDetailedVi
 
 
     private ImageView ivImage;
-    private TextView tvCategory;
-    private TextView tvTitle;
-    private TextView tvCreationDate;
-    private TextView tvText;
+    private SizeSwitchingTextView tvCategory;
+    private SizeSwitchingTextView tvTitle;
+    private SizeSwitchingTextView tvCreationDate;
+    private SizeSwitchingTextView tvText;
     private TextView tvSource;
 
     //region ===================== New Instance ======================
@@ -67,6 +72,7 @@ public class NewsDetailedFragment extends BaseFragment implements NewsDetailedVi
     public void onCreate(Bundle savedInstanceState) {
         initDI();
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
     }
 
     @Override
@@ -88,6 +94,25 @@ public class NewsDetailedFragment extends BaseFragment implements NewsDetailedVi
     private View.OnClickListener sourceTextClickListener = v -> {
         presenter.onSourceClicked();
     };
+
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.news_menu, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.action_change_text_size) {
+            presenter.onChangeTextSizeButtonClicked();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
 
     //endregion
 
@@ -111,6 +136,14 @@ public class NewsDetailedFragment extends BaseFragment implements NewsDetailedVi
     public void openSource(String sourceUrl) {
         Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(sourceUrl));
         startActivity(browserIntent);
+    }
+
+    @Override
+    public void changeTextSize() {
+        tvCategory.applyNextSize();
+        tvTitle.applyNextSize();
+        tvCreationDate.applyNextSize();
+        tvText.applyNextSize();
     }
 
     @Override

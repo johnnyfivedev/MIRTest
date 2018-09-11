@@ -10,7 +10,7 @@
     <android.support.design.widget.AppBarLayout
         android:id="@+id/app_bar"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="240dp"
         android:fitsSystemWindows="true">
 
         <android.support.design.widget.CollapsingToolbarLayout
@@ -52,29 +52,32 @@
             android:paddingRight="16dp"
             android:paddingTop="16dp">
 
-            <TextView
+            <com.johnnyfivedev.mirtest.ui.widget.SizeSwitchingTextView
                 android:id="@+id/tv_category"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
                 android:textColor="@color/cyan"
+                app:sizes="@array/array_text_sizes_tv_category"
                 tools:text="наука" />
 
-            <TextView
+            <com.johnnyfivedev.mirtest.ui.widget.SizeSwitchingTextView
                 android:id="@+id/tv_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
                 android:textColor="@color/black"
                 android:textStyle="bold"
+                app:sizes="@array/array_text_sizes_tv_title"
                 tools:text="Почему так много людей ненавидит свою работу, и что с этим можно сделать" />
 
-            <TextView
+            <com.johnnyfivedev.mirtest.ui.widget.SizeSwitchingTextView
                 android:id="@+id/tv_creation_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
                 android:textColor="@color/grey"
+                app:sizes="@array/array_text_sizes_tv_creation_date"
                 tools:text="21 июня 2018б 11:45" />
 
             <View
@@ -84,22 +87,22 @@
                 android:layout_marginBottom="16dp"
                 android:background="@color/grey" />
 
-            <TextView
+            <com.johnnyfivedev.mirtest.ui.widget.SizeSwitchingTextView
                 android:id="@+id/tv_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                android:textColor="@color/black" />
+                android:layout_marginBottom="10dp"
+                android:textColor="@color/black"
+                app:sizes="@array/array_text_sizes_tv_text" />
 
             <TextView
                 android:id="@+id/tv_source"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="24dp"
-                android:text="Ссылка на источник"
+                android:layout_marginBottom="40dp"
+                android:text="@string/source_link"
                 android:textAllCaps="true"
-                android:textColor="@color/green"
-                android:textSize="16dp" />
+                android:textColor="@color/green" />
 
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>

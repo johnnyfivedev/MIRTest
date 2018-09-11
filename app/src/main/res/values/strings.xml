@@ -6,4 +6,8 @@
     <string name="title_button_login">Войти</string>
     <string name="hint_input_email">Электронная почта</string>
     <string name="hint_input_password">Пароль</string>
+
+    <!--NewsDetailed screen-->
+    <string name="source_link">Ссылка на источник</string>
+
 </resources>

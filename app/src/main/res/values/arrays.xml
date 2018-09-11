@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <array name="array_text_sizes_tv_category">
+        <item>@dimen/text_size_tv_category_small</item>
+        <item>@dimen/text_size_tv_category_medium</item>
+        <item>@dimen/text_size_tv_category_large</item>
+    </array>
+
+    <array name="array_text_sizes_tv_title">
+        <item>@dimen/text_size_tv_title_small</item>
+        <item>@dimen/text_size_tv_title_medium</item>
+        <item>@dimen/text_size_tv_title_large</item>
+    </array>
+
+    <array name="array_text_sizes_tv_creation_date">
+        <item>@dimen/text_size_tv_creation_date_small</item>
+        <item>@dimen/text_size_tv_creation_date_medium</item>
+        <item>@dimen/text_size_tv_creation_date_large</item>
+    </array>
+
+    <array name="array_text_sizes_tv_text">
+        <item>@dimen/text_size_tv_text_small</item>
+        <item>@dimen/text_size_tv_text_medium</item>
+        <item>@dimen/text_size_tv_text_large</item>
+    </array>
+</resources>

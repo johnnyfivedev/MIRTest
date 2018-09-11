@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--News-->
+    <dimen name="text_size_tv_category_small">14dp</dimen>
+    <dimen name="text_size_tv_category_medium">16dp</dimen>
+    <dimen name="text_size_tv_category_large">18dp</dimen>
+
+    <dimen name="text_size_tv_title_small">16dp</dimen>
+    <dimen name="text_size_tv_title_medium">18dp</dimen>
+    <dimen name="text_size_tv_title_large">20dp</dimen>
+
+    <dimen name="text_size_tv_creation_date_small">12dp</dimen>
+    <dimen name="text_size_tv_creation_date_medium">14dp</dimen>
+    <dimen name="text_size_tv_creation_date_large">16dp</dimen>
+
+    <dimen name="text_size_tv_text_small">14dp</dimen>
+    <dimen name="text_size_tv_text_medium">16dp</dimen>
+    <dimen name="text_size_tv_text_large">18dp</dimen>
+
+</resources>
