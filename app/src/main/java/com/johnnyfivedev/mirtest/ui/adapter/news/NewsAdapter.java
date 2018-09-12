@@ -1,4 +1,4 @@
-package com.johnnyfivedev.mirtest.ui.adapter;
+package com.johnnyfivedev.mirtest.ui.adapter.news;
 
 import android.content.Context;
 import android.support.annotation.NonNull;

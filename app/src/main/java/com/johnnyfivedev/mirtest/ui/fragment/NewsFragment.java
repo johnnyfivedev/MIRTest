@@ -22,7 +22,7 @@ import com.johnnyfivedev.mirtest.R;
 import com.johnnyfivedev.mirtest.di.feature.news.NewsModule;
 import com.johnnyfivedev.mirtest.presentation.presenter.NewsPresenter;
 import com.johnnyfivedev.mirtest.presentation.view.NewsView;
-import com.johnnyfivedev.mirtest.ui.adapter.NewsAdapter;
+import com.johnnyfivedev.mirtest.ui.adapter.news.NewsPagingAdapter;
 
 import java.util.List;
 
@@ -42,8 +42,11 @@ public class NewsFragment extends BaseFragment implements NewsView {
         return presenterProvider.get();
     }
 
+   /* @Inject
+    NewsAdapter adapter;*/
+
     @Inject
-    NewsAdapter adapter;
+    NewsPagingAdapter adapter;
 
     private RecyclerView rvNews;
 
@@ -107,7 +110,7 @@ public class NewsFragment extends BaseFragment implements NewsView {
 
     @Override
     public void showNews(List<NewsItem> news) {
-        adapter.swapItems(news);
+        //adapter.swapItems(news);
     }
 
     @Override
@@ -147,6 +150,10 @@ public class NewsFragment extends BaseFragment implements NewsView {
                 null);
 
         rvNews = itemView.findViewById(R.id.rv_news);
+
+
+        adapter.submitList(pagedList);
+
 
         rvNews.setItemAnimator(null);
         rvNews.setLayoutManager(new LinearLayoutManager(getActivity()));

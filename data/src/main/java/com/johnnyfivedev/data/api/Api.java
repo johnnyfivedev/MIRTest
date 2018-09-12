@@ -12,6 +12,9 @@ public interface Api {
     @GET("news?page=1per=10")
     Observable<NewsResponse> getNews();
 
+    @GET("news?page={page}per={pageSize}")
+    Observable<NewsResponse> getNewsPaging(@Path("page") int page, @Path("pageSize") int pageSize);
+
     @GET("news/{id}")
     Observable<NewsItemResponse> getNewsById(@Path("id") Long id);
 }

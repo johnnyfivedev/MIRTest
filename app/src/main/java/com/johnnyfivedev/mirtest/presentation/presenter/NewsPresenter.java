@@ -5,13 +5,10 @@ import com.johnnyfivedev.domain.entity.news.NewsItem;
 import com.johnnyfivedev.domain.usecase.news.GetNewsUseCase;
 import com.johnnyfivedev.mirtest.presentation.view.NewsView;
 
-import java.util.Arrays;
 import java.util.List;
 
 import io.reactivex.Observable;
-import io.reactivex.Scheduler;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
 @InjectViewState
@@ -32,6 +29,10 @@ public class NewsPresenter extends BaseDisposablePresenter<NewsView> {
         disposeOnDestroy(getNewsObservable().subscribe(newsItems -> {
             getViewState().showNews(newsItems);
         }, Throwable::printStackTrace));
+
+
+        //MyPositionalDataSource dataSource = new MyPositionalDataSource(new EmployeeStorage());
+
     }
 
     //endregion

@@ -30,6 +30,6 @@ public class NewsDetailedModule {
     @Provides
     @NewsScope
     NewsRepository provideNewsRepository(Api api) {
-        return new NewsRepositoryImpl(api);
+        return new NewsRepositoryImpl(api, newsDataSource);
     }
 }
