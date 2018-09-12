@@ -9,9 +9,9 @@ import com.johnnyfivedev.domain.entity.news.NewsItem;
 
 import java.util.List;
 
-public class NewsDataSource extends PositionalDataSource<NewsItem> {
+public class NewsDataSource {
 
-    private final Api api;
+   /* private final Api api;
 
     public NewsDataSource(Api api) {
         this.api = api;
@@ -19,8 +19,8 @@ public class NewsDataSource extends PositionalDataSource<NewsItem> {
 
     @Override
     public void loadInitial(@NonNull LoadInitialParams params, @NonNull LoadInitialCallback<NewsItem> callback) {
-       /* Log.d(TAG, "loadInitial, requestedStartPosition = " + params.requestedStartPosition +
-                ", requestedLoadSize = " + params.requestedLoadSize);*/
+       *//* Log.d(TAG, "loadInitial, requestedStartPosition = " + params.requestedStartPosition +
+                ", requestedLoadSize = " + params.requestedLoadSize);*//*
 
 
         List<NewsItem> result = api.getNewsPaging(params.requestedStartPosition, params.requestedLoadSize);
@@ -32,5 +32,5 @@ public class NewsDataSource extends PositionalDataSource<NewsItem> {
         //Log.d(TAG, "loadRange, startPosition = " + params.startPosition + ", loadSize = " + params.loadSize);
         List<NewsItem> result = newsStorage.getData(params.startPosition, params.loadSize);
         callback.onResult(result);
-    }
+    }*/
 }

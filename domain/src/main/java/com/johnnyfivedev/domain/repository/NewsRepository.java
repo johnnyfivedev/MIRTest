@@ -10,7 +10,7 @@ public interface NewsRepository {
 
     Observable<List<NewsItem>> getNews();
 
-    Observable<List<NewsItem>> getNewsPaging();
+    Observable<List<NewsItem>> getNewsPaging(int startPosition, int pageSize);
 
     Observable<NewsItem> getNewsItemById(Long id);
 }

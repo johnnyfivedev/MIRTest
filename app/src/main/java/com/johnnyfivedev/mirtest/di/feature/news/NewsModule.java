@@ -5,6 +5,7 @@ import android.content.Context;
 import com.johnnyfivedev.data.api.Api;
 import com.johnnyfivedev.data.repositoryimpl.NewsRepositoryImpl;
 import com.johnnyfivedev.domain.repository.NewsRepository;
+import com.johnnyfivedev.domain.usecase.news.GetNewsPageUseCase;
 import com.johnnyfivedev.domain.usecase.news.GetNewsUseCase;
 import com.johnnyfivedev.mirtest.ListItemClickListener;
 import com.johnnyfivedev.mirtest.di.scope.NewsScope;
@@ -31,8 +32,8 @@ public class NewsModule {
 
     @Provides
     @NewsScope
-    NewsPresenter providePresenter(GetNewsUseCase getNewsUseCase) {
-        return new NewsPresenter(getNewsUseCase);
+    NewsPresenter providePresenter(GetNewsPageUseCase getNewsPageUseCase) {
+        return new NewsPresenter(getNewsPageUseCase);
     }
 
    /* @Provides
@@ -50,6 +51,6 @@ public class NewsModule {
     @Provides
     @NewsScope
     NewsRepository provideNewsRepository(Api api) {
-        return new NewsRepositoryImpl(api, newsDataSource);
+        return new NewsRepositoryImpl(api);
     }
 }

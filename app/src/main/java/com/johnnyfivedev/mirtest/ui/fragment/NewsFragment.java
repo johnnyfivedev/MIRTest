@@ -1,11 +1,14 @@
 package com.johnnyfivedev.mirtest.ui.fragment;
 
+import android.arch.paging.PagedList;
+import android.arch.paging.PositionalDataSource;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -16,6 +19,7 @@ import android.widget.Toast;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
+import com.johnnyfivedev.data.MainThreadExecutor;
 import com.johnnyfivedev.domain.entity.news.NewsItem;
 import com.johnnyfivedev.mirtest.ListItemClickListener;
 import com.johnnyfivedev.mirtest.R;
@@ -23,8 +27,10 @@ import com.johnnyfivedev.mirtest.di.feature.news.NewsModule;
 import com.johnnyfivedev.mirtest.presentation.presenter.NewsPresenter;
 import com.johnnyfivedev.mirtest.presentation.view.NewsView;
 import com.johnnyfivedev.mirtest.ui.adapter.news.NewsPagingAdapter;
+import com.johnnyfivedev.mirtest.ui.adapter.news.NewsPagingDataSource;
 
 import java.util.List;
+import java.util.concurrent.Executors;
 
 import javax.inject.Inject;
 import javax.inject.Provider;
@@ -47,6 +53,8 @@ public class NewsFragment extends BaseFragment implements NewsView {
 
     @Inject
     NewsPagingAdapter adapter;
+
+    private NewsPagingDataSource dataSource;
 
     private RecyclerView rvNews;
 
@@ -114,6 +122,18 @@ public class NewsFragment extends BaseFragment implements NewsView {
     }
 
     @Override
+    public void setNews(boolean isInitialRequest, List<NewsItem> newsItems) {
+        dataSource.setItems(newsItems, isInitialRequest);
+        logIds(newsItems);
+    }
+
+    private void logIds(List<NewsItem> items) {
+        for (NewsItem newsItem : items) {
+            Log.d("newsids", String.valueOf(newsItem.getId()));
+        }
+    }
+
+    @Override
     public void openNewsDetailScreen(Long newsItemId) {
         if (getActivity() != null) {
             FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
@@ -151,9 +171,25 @@ public class NewsFragment extends BaseFragment implements NewsView {
 
         rvNews = itemView.findViewById(R.id.rv_news);
 
+        setupNewsAdapter();
+    }
+
+    private void setupNewsAdapter() {
+        PagedList.Config config = new PagedList.Config.Builder()
+                .setEnablePlaceholders(false)
+                .setPageSize(10)
+                .build();
+
+        dataSource = new NewsPagingDataSource((initialRequest, startPosition, pageSize) -> {
+            presenter.onNewsPageRequested(initialRequest, startPosition, pageSize);
+        });
+
+        PagedList<NewsItem> pagedList = new PagedList.Builder<>(dataSource, config)
+                .setNotifyExecutor(new MainThreadExecutor())
+                .setFetchExecutor(Executors.newSingleThreadExecutor())
+                .build();
 
         adapter.submitList(pagedList);
-
 
         rvNews.setItemAnimator(null);
         rvNews.setLayoutManager(new LinearLayoutManager(getActivity()));

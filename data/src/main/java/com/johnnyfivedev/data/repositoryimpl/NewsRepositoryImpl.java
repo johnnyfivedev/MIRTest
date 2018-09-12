@@ -16,13 +16,9 @@ import io.reactivex.Observable;
 public class NewsRepositoryImpl implements NewsRepository {
 
     private final Api api;
-    private final NewsDataSource newsDataSource;
 
-
-    public NewsRepositoryImpl(Api api,
-                              NewsDataSource newsDataSource) {
+    public NewsRepositoryImpl(Api api) {
         this.api = api;
-        this.newsDataSource = newsDataSource;
     }
 
     @Override
@@ -31,16 +27,8 @@ public class NewsRepositoryImpl implements NewsRepository {
     }
 
     @Override
-    public Observable<List<NewsItem>> getNewsPaging() {
-        PagedList.Config config = new PagedList.Config.Builder()
-                .setEnablePlaceholders(false)
-                .setPageSize(10)
-                .build();
-
-        PagedList<NewsItem> pagedList = new PagedList.Builder<>(newsDataSource, config)
-                .setNotifyExecutor(new MainThreadExecutor())
-                .setFetchExecutor(Executors.newSingleThreadExecutor())
-                .build();
+    public Observable<List<NewsItem>> getNewsPaging(int startPosition, int pageSize) {
+        return api.getNewsPaging(startPosition, pageSize).map(newsResponse -> newsResponse.getData().getNews());
     }
 
     @Override
