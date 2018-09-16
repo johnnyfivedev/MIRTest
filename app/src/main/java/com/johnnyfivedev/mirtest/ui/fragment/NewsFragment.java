@@ -32,6 +32,8 @@ import java.util.concurrent.Executors;
 import javax.inject.Inject;
 import javax.inject.Provider;
 
+import retrofit2.http.HEAD;
+
 public class NewsFragment extends BaseFragment implements NewsView {
 
     @InjectPresenter
