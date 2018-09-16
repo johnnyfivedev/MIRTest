@@ -1,15 +1,11 @@
 package com.johnnyfivedev.data.repositoryimpl;
 
-import android.arch.paging.PagedList;
-
-import com.johnnyfivedev.data.MainThreadExecutor;
-import com.johnnyfivedev.data.NewsDataSource;
 import com.johnnyfivedev.data.api.Api;
 import com.johnnyfivedev.domain.entity.news.NewsItem;
 import com.johnnyfivedev.domain.repository.NewsRepository;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Executors;
 
 import io.reactivex.Observable;
 
@@ -27,8 +23,8 @@ public class NewsRepositoryImpl implements NewsRepository {
     }
 
     @Override
-    public Observable<List<NewsItem>> getNewsPaging(int startPosition, int pageSize) {
-        return api.getNewsPaging(startPosition, pageSize).map(newsResponse -> newsResponse.getData().getNews());
+    public Observable<List<NewsItem>> getNewsPaging(int page, int pageSize) {
+        return api.getNewsPaging(page, pageSize).map(newsResponse -> newsResponse.getData().getNews());
     }
 
     @Override

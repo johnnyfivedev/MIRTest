@@ -23,27 +23,19 @@ public class NewsPagingDataSource extends PositionalDataSource<NewsItem> {
 
     @Override
     public void loadInitial(@NonNull PositionalDataSource.LoadInitialParams params, @NonNull LoadInitialCallback<NewsItem> callback) {
-        onDataRequestedCallback.onNewsPageRequested(true, params.requestedStartPosition, params.pageSize);
+        onDataRequestedCallback.onNewsPageRequested(true, 1, params.pageSize);
         initialCallback = callback;
     }
 
     @Override
     public void loadRange(@NonNull LoadRangeParams params, @NonNull LoadRangeCallback<NewsItem> callback) {
-        onDataRequestedCallback.onNewsPageRequested(false, params.startPosition, params.loadSize);
+        onDataRequestedCallback.onNewsPageRequested(false, params.startPosition / params.loadSize + 1, params.loadSize);
         rangeCallback = callback;
     }
 
     //endregion
 
     //region ===================== Setters ======================
-
-    public void setInitial(List<NewsItem> items) {
-        initialCallback.onResult(items, 0);
-    }
-
-    public void setRange(List<NewsItem> news) {
-        rangeCallback.onResult(news);
-    }
 
     public void setItems(List<NewsItem> items, boolean initialRequest) {
         if (initialRequest) {
@@ -58,7 +50,7 @@ public class NewsPagingDataSource extends PositionalDataSource<NewsItem> {
     //region ===================== Callback ======================
 
     public interface OnDataRequestedCallback {
-        void onNewsPageRequested(boolean initialRequest, int startPosition, int pageSize);
+        void onNewsPageRequested(boolean initialRequest, int page, int pageSize);
     }
 
     //endregion

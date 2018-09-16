@@ -1,6 +1,5 @@
 package com.johnnyfivedev.mirtest.ui.adapter.news;
 
-import android.arch.paging.PagedList;
 import android.arch.paging.PagedListAdapter;
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -16,11 +15,6 @@ import com.bumptech.glide.Glide;
 import com.johnnyfivedev.domain.entity.news.NewsItem;
 import com.johnnyfivedev.mirtest.ListItemClickListener;
 import com.johnnyfivedev.mirtest.R;
-
-import java.util.ArrayList;
-import java.util.concurrent.Executors;
-
-import javax.inject.Inject;
 
 public class NewsPagingAdapter extends PagedListAdapter<NewsItem, NewsPagingAdapter.NewsItemViewHolder> {
 

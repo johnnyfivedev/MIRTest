@@ -3,11 +3,8 @@ package com.johnnyfivedev.domain.entity.news;
 import com.google.gson.annotations.SerializedName;
 
 import org.joda.time.DateTime;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
 
 public class NewsItem {
 

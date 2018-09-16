@@ -66,14 +66,13 @@ public class NewsPresenter extends BaseDisposablePresenter<NewsView> {
                 .observeOn(AndroidSchedulers.mainThread());
     }*/
 
-    public void onNewsPageRequested(boolean initialRequest, int requestedStartPosition, int pageSize) {
-        GetNewsPageUseCaseParams getNewsPageUseCaseParams = new GetNewsPageUseCaseParams(requestedStartPosition, pageSize);
+    public void onNewsPageRequested(boolean initialRequest, int page, int pageSize) {
+        GetNewsPageUseCaseParams getNewsPageUseCaseParams = new GetNewsPageUseCaseParams(page, pageSize);
         disposeOnDestroy(getNewsPageUseCase.buildUseCaseObservable(getNewsPageUseCaseParams)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(newsItems -> {
                     getViewState().setNews(initialRequest, newsItems);
-
                 }, throwable -> {
                     throwable.printStackTrace();
                 }));

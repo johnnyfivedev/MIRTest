@@ -2,20 +2,20 @@ package com.johnnyfivedev.domain.usecase.news;
 
 public class GetNewsPageUseCaseParams {
 
-    private int startPosition;
+    private int page;
 
     private int pageSize;
 
 
-    public GetNewsPageUseCaseParams(int startPosition, int pageSize) {
-        this.startPosition = startPosition;
+    public GetNewsPageUseCaseParams(int page, int pageSize) {
+        this.page = page;
         this.pageSize = pageSize;
     }
 
     //region ===================== Getters ======================
 
-    public int getStartPosition() {
-        return startPosition;
+    public int getPage() {
+        return page;
     }
 
     public int getPageSize() {

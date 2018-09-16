@@ -22,6 +22,6 @@ public class GetNewsPageUseCase extends ObservableUseCase<GetNewsPageUseCasePara
 
     @Override
     public Observable<List<NewsItem>> buildUseCaseObservable(GetNewsPageUseCaseParams params) {
-        return newsRepository.getNews();
+        return newsRepository.getNewsPaging(params.getPage(), params.getPageSize());
     }
 }

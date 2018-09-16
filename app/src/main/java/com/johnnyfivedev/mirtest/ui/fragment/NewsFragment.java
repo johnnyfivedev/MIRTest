@@ -1,7 +1,6 @@
 package com.johnnyfivedev.mirtest.ui.fragment;
 
 import android.arch.paging.PagedList;
-import android.arch.paging.PositionalDataSource;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentManager;
@@ -180,9 +179,8 @@ public class NewsFragment extends BaseFragment implements NewsView {
                 .setPageSize(10)
                 .build();
 
-        dataSource = new NewsPagingDataSource((initialRequest, startPosition, pageSize) -> {
-            presenter.onNewsPageRequested(initialRequest, startPosition, pageSize);
-        });
+        dataSource = new NewsPagingDataSource((initialRequest, page, pageSize) ->
+                presenter.onNewsPageRequested(initialRequest, page, pageSize));
 
         PagedList<NewsItem> pagedList = new PagedList.Builder<>(dataSource, config)
                 .setNotifyExecutor(new MainThreadExecutor())
