@@ -10,7 +10,6 @@ import java.util.List;
 
 @StateStrategyType(AddToEndSingleStrategy.class)
 public interface NewsView extends MvpView {
-    void showNews(List<NewsItem> news);
 
     @StateStrategyType(OneExecutionStateStrategy.class)
     void openNewsDetailScreen(Long newsItemId);
@@ -20,4 +19,7 @@ public interface NewsView extends MvpView {
 
     @StateStrategyType(OneExecutionStateStrategy.class)
     void setNews(boolean initialRequest, List<NewsItem> newsItems);
+
+    @StateStrategyType(OneExecutionStateStrategy.class)
+    void buildNewsPaging();
 }

@@ -45,13 +45,8 @@ public class NewsFragment extends BaseFragment implements NewsView {
         return presenterProvider.get();
     }
 
-   /* @Inject
-    NewsAdapter adapter;*/
-
     @Inject
     NewsPagingAdapter adapter;
-
-    private NewsPagingDataSource dataSource;
 
     private RecyclerView rvNews;
 
@@ -114,8 +109,8 @@ public class NewsFragment extends BaseFragment implements NewsView {
     //region ===================== View ======================
 
     @Override
-    public void showNews(List<NewsItem> news) {
-        //adapter.swapItems(news);
+    public void buildNewsPaging() {
+        adapter.submitList(pagedListBuilder.build());
     }
 
     @Override
@@ -167,21 +162,6 @@ public class NewsFragment extends BaseFragment implements NewsView {
     }
 
     private void setupNewsAdapter() {
-        PagedList.Config config = new PagedList.Config.Builder()
-                .setEnablePlaceholders(false)
-                .setPageSize(10)
-                .build();
-
-        dataSource = new NewsPagingDataSource((initialRequest, page, pageSize) ->
-                presenter.onNewsPageRequested(initialRequest, page, pageSize));
-
-        PagedList<NewsItem> pagedList = new PagedList.Builder<>(dataSource, config)
-                .setNotifyExecutor(new MainThreadExecutor())
-                .setFetchExecutor(Executors.newSingleThreadExecutor())
-                .build();
-
-        adapter.submitList(pagedList);
-
         rvNews.setItemAnimator(null);
         rvNews.setLayoutManager(new LinearLayoutManager(getActivity()));
         rvNews.setAdapter(adapter);
@@ -192,6 +172,20 @@ public class NewsFragment extends BaseFragment implements NewsView {
             Log.d("newsids", String.valueOf(newsItem.getId()));
         }
     }
+
+    //todo move to di
+    private PagedList.Config config = new PagedList.Config.Builder()
+            .setEnablePlaceholders(false)
+            .setPageSize(10)
+            .build();
+
+    private NewsPagingDataSource dataSource = new NewsPagingDataSource((initialRequest, page, pageSize) ->
+            presenter.onNewsPageRequested(initialRequest, page, pageSize));
+
+    private PagedList.Builder pagedListBuilder = new PagedList.Builder<>(dataSource, config)
+            .setNotifyExecutor(new MainThreadExecutor())
+            .setFetchExecutor(Executors.newSingleThreadExecutor());
+
 
     //endregion
 }
