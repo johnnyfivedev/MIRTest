@@ -3,8 +3,6 @@ package com.johnnyfivedev.mirtest.ui.fragment;
 import android.arch.paging.PagedList;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -126,20 +124,15 @@ public class NewsFragment extends BaseFragment implements NewsView {
         logIds(newsItems);
     }
 
-    private void logIds(List<NewsItem> items) {
-        for (NewsItem newsItem : items) {
-            Log.d("newsids", String.valueOf(newsItem.getId()));
-        }
-    }
-
     @Override
     public void openNewsDetailScreen(Long newsItemId) {
         if (getActivity() != null) {
-            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.fragment_news_layout_container, NewsDetailedFragment.newInstance(newsItemId));
-            fragmentTransaction.addToBackStack(null);
-            fragmentTransaction.commit();
+            getActivity().getSupportFragmentManager()
+                    .beginTransaction()
+                    .hide(this)
+                    .add(R.id.fragment_news_layout_container, NewsDetailedFragment.newInstance(newsItemId))
+                    .addToBackStack(null)
+                    .commit();
         }
     }
 
@@ -159,7 +152,7 @@ public class NewsFragment extends BaseFragment implements NewsView {
 
     //endregion
 
-    //region ===================== UI ======================
+    //region ===================== Internal ======================
 
     public void initUI(View itemView) {
         setupToolbar(itemView,
@@ -192,6 +185,12 @@ public class NewsFragment extends BaseFragment implements NewsView {
         rvNews.setItemAnimator(null);
         rvNews.setLayoutManager(new LinearLayoutManager(getActivity()));
         rvNews.setAdapter(adapter);
+    }
+
+    private void logIds(List<NewsItem> items) {
+        for (NewsItem newsItem : items) {
+            Log.d("newsids", String.valueOf(newsItem.getId()));
+        }
     }
 
     //endregion
