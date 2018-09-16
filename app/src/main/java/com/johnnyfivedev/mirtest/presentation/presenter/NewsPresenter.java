@@ -18,14 +18,11 @@ import io.reactivex.schedulers.Schedulers;
 @InjectViewState
 public class NewsPresenter extends BaseDisposablePresenter<NewsView> {
 
-    //private final GetNewsUseCase getNewsUseCase;
     private final GetNewsPageUseCase getNewsPageUseCase;
 
 
-    //public NewsPresenter(GetNewsUseCase getNewsUseCase, GetNewsPageUseCase getNewsPageUseCase) {
     public NewsPresenter(GetNewsPageUseCase getNewsPageUseCase) {
         this.getNewsPageUseCase = getNewsPageUseCase;
-        //this.getNewsUseCase = getNewsUseCase;
     }
 
     //region ===================== Lifecycle ======================
@@ -33,6 +30,7 @@ public class NewsPresenter extends BaseDisposablePresenter<NewsView> {
     @Override
     protected void onFirstViewAttach() {
         super.onFirstViewAttach();
+        getViewState().buildNewsPaging();
        /* disposeOnDestroy(getNewsObservable().subscribe(newsItems -> {
             getViewState().showNews(newsItems);
         }, Throwable::printStackTrace));*/
