@@ -14,6 +14,8 @@ public class NewsPagingDataSource extends PositionalDataSource<NewsItem> {
     private LoadInitialCallback<NewsItem> initialCallback;
     private LoadRangeCallback<NewsItem> rangeCallback;
 
+    private boolean isInitialLoad = true;
+
 
     public NewsPagingDataSource(OnDataRequestedCallback onDataRequestedCallback) {
         this.onDataRequestedCallback = onDataRequestedCallback;
@@ -23,13 +25,15 @@ public class NewsPagingDataSource extends PositionalDataSource<NewsItem> {
 
     @Override
     public void loadInitial(@NonNull PositionalDataSource.LoadInitialParams params, @NonNull LoadInitialCallback<NewsItem> callback) {
-        onDataRequestedCallback.onNewsPageRequested(true, 1, params.pageSize);
+        isInitialLoad = true;
+        onDataRequestedCallback.onNewsPageRequested(1, params.pageSize);
         initialCallback = callback;
     }
 
     @Override
     public void loadRange(@NonNull LoadRangeParams params, @NonNull LoadRangeCallback<NewsItem> callback) {
-        onDataRequestedCallback.onNewsPageRequested(false, params.startPosition / params.loadSize + 1, params.loadSize);
+        isInitialLoad = false;
+        onDataRequestedCallback.onNewsPageRequested(params.startPosition / params.loadSize + 1, params.loadSize);
         rangeCallback = callback;
     }
 
@@ -37,8 +41,8 @@ public class NewsPagingDataSource extends PositionalDataSource<NewsItem> {
 
     //region ===================== Setters ======================
 
-    public void setItems(List<NewsItem> items, boolean initialRequest) {
-        if (initialRequest) {
+    public void setItems(List<NewsItem> items) {
+        if (isInitialLoad) {
             initialCallback.onResult(items, 0);
         } else {
             rangeCallback.onResult(items);
@@ -50,7 +54,7 @@ public class NewsPagingDataSource extends PositionalDataSource<NewsItem> {
     //region ===================== Callback ======================
 
     public interface OnDataRequestedCallback {
-        void onNewsPageRequested(boolean initialRequest, int page, int pageSize);
+        void onNewsPageRequested(int page, int pageSize);
     }
 
     //endregion

@@ -18,8 +18,11 @@ public interface NewsView extends MvpView {
     void showMessage();
 
     @StateStrategyType(OneExecutionStateStrategy.class)
-    void setNews(boolean initialRequest, List<NewsItem> newsItems);
+    void setNews(List<NewsItem> newsItems);
 
     @StateStrategyType(OneExecutionStateStrategy.class)
     void buildNewsPaging();
+
+    @StateStrategyType(OneExecutionStateStrategy.class)
+    void resetNews(List<NewsItem> newsItems);
 }

@@ -32,8 +32,6 @@ import java.util.concurrent.Executors;
 import javax.inject.Inject;
 import javax.inject.Provider;
 
-import retrofit2.http.HEAD;
-
 public class NewsFragment extends BaseFragment implements NewsView {
 
     @InjectPresenter
@@ -51,6 +49,21 @@ public class NewsFragment extends BaseFragment implements NewsView {
     NewsPagingAdapter adapter;
 
     private RecyclerView rvNews;
+
+    private PagedList<NewsItem> newsItems;
+
+    //todo move to di
+    private PagedList.Config config = new PagedList.Config.Builder()
+            .setEnablePlaceholders(false)
+            .setPageSize(10)
+            .build();
+
+    private NewsPagingDataSource dataSource = new NewsPagingDataSource((page, pageSize) ->
+            presenter.onNewsPageRequested(page, pageSize));
+
+    private PagedList.Builder pagedListBuilder = new PagedList.Builder<>(dataSource, config)
+            .setNotifyExecutor(new MainThreadExecutor())
+            .setFetchExecutor(Executors.newSingleThreadExecutor());
 
 
     //region ===================== New Instance ======================
@@ -112,12 +125,13 @@ public class NewsFragment extends BaseFragment implements NewsView {
 
     @Override
     public void buildNewsPaging() {
-        adapter.submitList(pagedListBuilder.build());
+        newsItems = pagedListBuilder.build();
+        adapter.submitList(newsItems);
     }
 
     @Override
-    public void setNews(boolean isInitialRequest, List<NewsItem> newsItems) {
-        dataSource.setItems(newsItems, isInitialRequest);
+    public void setNews(List<NewsItem> newsItems) {
+        dataSource.setItems(newsItems);
         logIds(newsItems);
     }
 
@@ -136,6 +150,11 @@ public class NewsFragment extends BaseFragment implements NewsView {
     @Override
     public void showMessage() {
         Toast.makeText(getContext(), R.string.data_reloaded, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void resetNews(List<NewsItem> items) {
+        adapter.submitList(newsItems);
     }
 
     //endregion
@@ -174,20 +193,6 @@ public class NewsFragment extends BaseFragment implements NewsView {
             Log.d("newsids", String.valueOf(newsItem.getId()));
         }
     }
-
-    //todo move to di
-    private PagedList.Config config = new PagedList.Config.Builder()
-            .setEnablePlaceholders(false)
-            .setPageSize(10)
-            .build();
-
-    private NewsPagingDataSource dataSource = new NewsPagingDataSource((initialRequest, page, pageSize) ->
-            presenter.onNewsPageRequested(initialRequest, page, pageSize));
-
-    private PagedList.Builder pagedListBuilder = new PagedList.Builder<>(dataSource, config)
-            .setNotifyExecutor(new MainThreadExecutor())
-            .setFetchExecutor(Executors.newSingleThreadExecutor());
-
 
     //endregion
 }

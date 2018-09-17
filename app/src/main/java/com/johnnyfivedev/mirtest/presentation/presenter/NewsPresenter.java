@@ -4,15 +4,12 @@ import com.arellomobile.mvp.InjectViewState;
 import com.johnnyfivedev.domain.entity.news.NewsItem;
 import com.johnnyfivedev.domain.usecase.news.GetNewsPageUseCase;
 import com.johnnyfivedev.domain.usecase.news.GetNewsPageUseCaseParams;
-import com.johnnyfivedev.domain.usecase.news.GetNewsUseCase;
 import com.johnnyfivedev.mirtest.presentation.view.NewsView;
 
 import java.util.List;
 
 import io.reactivex.Observable;
-import io.reactivex.Scheduler;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
 @InjectViewState
@@ -31,12 +28,6 @@ public class NewsPresenter extends BaseDisposablePresenter<NewsView> {
     protected void onFirstViewAttach() {
         super.onFirstViewAttach();
         getViewState().buildNewsPaging();
-       /* disposeOnDestroy(getNewsObservable().subscribe(newsItems -> {
-            getViewState().showNews(newsItems);
-        }, Throwable::printStackTrace));*/
-
-        //MyPositionalDataSource dataSource = new MyPositionalDataSource(new EmployeeStorage());
-
     }
 
     //endregion
@@ -47,33 +38,20 @@ public class NewsPresenter extends BaseDisposablePresenter<NewsView> {
         getViewState().openNewsDetailScreen(newsItemId);
     }
 
-    public void onRefreshClicked() {
-      /*  disposeOnDestroy(getNewsObservable().subscribe(newsItems -> {
-            getViewState().showNews(newsItems);
-            getViewState().showMessage();
-        }, Throwable::printStackTrace));*/
-    }
-
-    //endregion
-
-    //region ===================== Internal ======================
-/*
-    private Observable<List<NewsItem>> getNewsObservable() {
-        return getNewsUseCase.buildUseCaseObservable()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
-    }*/
-
-    public void onNewsPageRequested(boolean initialRequest, int page, int pageSize) {
+    public void onNewsPageRequested(int page, int pageSize) {
         GetNewsPageUseCaseParams getNewsPageUseCaseParams = new GetNewsPageUseCaseParams(page, pageSize);
         disposeOnDestroy(getNewsPageUseCase.buildUseCaseObservable(getNewsPageUseCaseParams)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(newsItems -> {
-                    getViewState().setNews(initialRequest, newsItems);
+                    getViewState().setNews(newsItems);
                 }, throwable -> {
                     throwable.printStackTrace();
                 }));
+    }
+
+    public void onRefreshClicked() {
+        getViewState().buildNewsPaging();
     }
 
     //endregion
