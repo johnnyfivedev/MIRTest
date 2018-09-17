@@ -1,6 +1,5 @@
 package com.johnnyfivedev.mirtest.ui.fragment;
 
-import android.arch.paging.PagedList;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,22 +11,20 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
-import com.johnnyfivedev.data.MainThreadExecutor;
 import com.johnnyfivedev.domain.entity.news.NewsItem;
 import com.johnnyfivedev.mirtest.ListItemClickListener;
 import com.johnnyfivedev.mirtest.R;
 import com.johnnyfivedev.mirtest.di.feature.news.NewsModule;
 import com.johnnyfivedev.mirtest.presentation.presenter.NewsPresenter;
 import com.johnnyfivedev.mirtest.presentation.view.NewsView;
+import com.johnnyfivedev.mirtest.ui.adapter.news.NewsPagedListInitializer;
 import com.johnnyfivedev.mirtest.ui.adapter.news.NewsPagingAdapter;
 import com.johnnyfivedev.mirtest.ui.adapter.news.NewsPagingDataSource;
 
 import java.util.List;
-import java.util.concurrent.Executors;
 
 import javax.inject.Inject;
 import javax.inject.Provider;
@@ -48,22 +45,10 @@ public class NewsFragment extends BaseFragment implements NewsView {
     @Inject
     NewsPagingAdapter adapter;
 
+    @Inject
+    NewsPagedListInitializer newsPagedListInitializer;
+
     private RecyclerView rvNews;
-
-    private PagedList<NewsItem> newsItems;
-
-    //todo move to di
-    private PagedList.Config config = new PagedList.Config.Builder()
-            .setEnablePlaceholders(false)
-            .setPageSize(10)
-            .build();
-
-    private NewsPagingDataSource dataSource = new NewsPagingDataSource((page, pageSize) ->
-            presenter.onNewsPageRequested(page, pageSize));
-
-    private PagedList.Builder pagedListBuilder = new PagedList.Builder<>(dataSource, config)
-            .setNotifyExecutor(new MainThreadExecutor())
-            .setFetchExecutor(Executors.newSingleThreadExecutor());
 
 
     //region ===================== New Instance ======================
@@ -119,20 +104,23 @@ public class NewsFragment extends BaseFragment implements NewsView {
         return super.onOptionsItemSelected(item);
     }
 
+    private NewsPagingDataSource.OnNextPageRequestedCallback onNextPageRequestedCallback =
+            (page, pageSize) -> presenter.onNewsPageRequested(page, pageSize);
+
+
     //endregion
 
     //region ===================== View ======================
 
     @Override
     public void buildNewsPaging() {
-        newsItems = pagedListBuilder.build();
-        adapter.submitList(newsItems);
+        adapter.submitList(newsPagedListInitializer.buildPagedList());
     }
 
     @Override
-    public void setNews(List<NewsItem> newsItems) {
-        dataSource.setItems(newsItems);
-        logIds(newsItems);
+    public void setNews(List<NewsItem> items) {
+        newsPagedListInitializer.getDataSource().setItems(items);
+        logIds(items);
     }
 
     @Override
@@ -147,22 +135,14 @@ public class NewsFragment extends BaseFragment implements NewsView {
         }
     }
 
-    @Override
-    public void showMessage() {
-        Toast.makeText(getContext(), R.string.data_reloaded, Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void resetNews(List<NewsItem> items) {
-        adapter.submitList(newsItems);
-    }
-
     //endregion
 
     //region ===================== DI =====================
 
     public void initDI() {
-        getAppComponent().plus(new NewsModule(getActivity(), newsItemClickListener))
+        getAppComponent().plus(new NewsModule(getActivity(),
+                newsItemClickListener,
+                onNextPageRequestedCallback))
                 .inject(this);
     }
 

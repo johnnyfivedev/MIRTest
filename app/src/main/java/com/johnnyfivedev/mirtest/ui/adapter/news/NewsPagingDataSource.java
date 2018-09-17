@@ -9,7 +9,7 @@ import java.util.List;
 
 public class NewsPagingDataSource extends PositionalDataSource<NewsItem> {
 
-    private final OnDataRequestedCallback onDataRequestedCallback;
+    private final OnNextPageRequestedCallback onNextPageRequestedCallback;
 
     private LoadInitialCallback<NewsItem> initialCallback;
     private LoadRangeCallback<NewsItem> rangeCallback;
@@ -17,8 +17,8 @@ public class NewsPagingDataSource extends PositionalDataSource<NewsItem> {
     private boolean isInitialLoad = true;
 
 
-    public NewsPagingDataSource(OnDataRequestedCallback onDataRequestedCallback) {
-        this.onDataRequestedCallback = onDataRequestedCallback;
+    public NewsPagingDataSource(OnNextPageRequestedCallback onNextPageRequestedCallback) {
+        this.onNextPageRequestedCallback = onNextPageRequestedCallback;
     }
 
     //region ===================== Override ======================
@@ -26,14 +26,14 @@ public class NewsPagingDataSource extends PositionalDataSource<NewsItem> {
     @Override
     public void loadInitial(@NonNull PositionalDataSource.LoadInitialParams params, @NonNull LoadInitialCallback<NewsItem> callback) {
         isInitialLoad = true;
-        onDataRequestedCallback.onNewsPageRequested(1, params.pageSize);
+        onNextPageRequestedCallback.onNextPageRequested(1, params.pageSize);
         initialCallback = callback;
     }
 
     @Override
     public void loadRange(@NonNull LoadRangeParams params, @NonNull LoadRangeCallback<NewsItem> callback) {
         isInitialLoad = false;
-        onDataRequestedCallback.onNewsPageRequested(params.startPosition / params.loadSize + 1, params.loadSize);
+        onNextPageRequestedCallback.onNextPageRequested(params.startPosition / params.loadSize + 1, params.loadSize);
         rangeCallback = callback;
     }
 
@@ -53,8 +53,8 @@ public class NewsPagingDataSource extends PositionalDataSource<NewsItem> {
 
     //region ===================== Callback ======================
 
-    public interface OnDataRequestedCallback {
-        void onNewsPageRequested(int page, int pageSize);
+    public interface OnNextPageRequestedCallback {
+        void onNextPageRequested(int page, int pageSize);
     }
 
     //endregion

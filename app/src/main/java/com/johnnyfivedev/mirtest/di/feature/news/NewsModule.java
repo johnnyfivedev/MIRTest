@@ -6,12 +6,13 @@ import com.johnnyfivedev.data.api.Api;
 import com.johnnyfivedev.data.repositoryimpl.NewsRepositoryImpl;
 import com.johnnyfivedev.domain.repository.NewsRepository;
 import com.johnnyfivedev.domain.usecase.news.GetNewsPageUseCase;
-import com.johnnyfivedev.domain.usecase.news.GetNewsUseCase;
 import com.johnnyfivedev.mirtest.ListItemClickListener;
 import com.johnnyfivedev.mirtest.di.scope.NewsScope;
 import com.johnnyfivedev.mirtest.presentation.presenter.NewsPresenter;
 import com.johnnyfivedev.mirtest.ui.adapter.news.NewsItemDiffUtilCallback;
+import com.johnnyfivedev.mirtest.ui.adapter.news.NewsPagedListInitializer;
 import com.johnnyfivedev.mirtest.ui.adapter.news.NewsPagingAdapter;
+import com.johnnyfivedev.mirtest.ui.adapter.news.NewsPagingDataSource;
 
 import dagger.Module;
 import dagger.Provides;
@@ -20,14 +21,17 @@ import dagger.Provides;
 @Module
 public class NewsModule {
 
-    private Context context;
-    private ListItemClickListener listItemClickListener;
+    private final Context context;
+    private final ListItemClickListener listItemClickListener;
+    private final NewsPagingDataSource.OnNextPageRequestedCallback onNextPageRequestedCallback;
 
 
     public NewsModule(Context context,
-                      ListItemClickListener listItemClickListener) {
+                      ListItemClickListener listItemClickListener,
+                      NewsPagingDataSource.OnNextPageRequestedCallback onNextPageRequestedCallback) {
         this.context = context;
         this.listItemClickListener = listItemClickListener;
+        this.onNextPageRequestedCallback = onNextPageRequestedCallback;
     }
 
     @Provides
@@ -36,16 +40,16 @@ public class NewsModule {
         return new NewsPresenter(getNewsPageUseCase);
     }
 
-   /* @Provides
-    @NewsScope
-    NewsAdapter provideNewsAdapter() {
-        return new NewsAdapter(context, listItemClickListener);
-    }*/
-
     @Provides
     @NewsScope
     NewsPagingAdapter provideNewsPagingAdapter(NewsItemDiffUtilCallback diffUtilCallback) {
         return new NewsPagingAdapter(diffUtilCallback, listItemClickListener);
+    }
+
+    @Provides
+    @NewsScope
+    NewsPagedListInitializer provideNewsPagedListBuilderHolder() {
+        return new NewsPagedListInitializer(onNextPageRequestedCallback);
     }
 
     @Provides
