@@ -4,15 +4,16 @@ import android.content.Context;
 
 import com.johnnyfivedev.data.api.Api;
 import com.johnnyfivedev.data.repositoryimpl.NewsRepositoryImpl;
+import com.johnnyfivedev.domain.entity.news.NewsItem;
 import com.johnnyfivedev.domain.repository.NewsRepository;
 import com.johnnyfivedev.domain.usecase.news.GetNewsPageUseCase;
 import com.johnnyfivedev.mirtest.ListItemClickListener;
 import com.johnnyfivedev.mirtest.di.scope.NewsScope;
 import com.johnnyfivedev.mirtest.presentation.presenter.NewsPresenter;
 import com.johnnyfivedev.mirtest.ui.adapter.news.NewsItemDiffUtilCallback;
-import com.johnnyfivedev.mirtest.ui.adapter.news.NewsPagedListInitializer;
 import com.johnnyfivedev.mirtest.ui.adapter.news.NewsPagingAdapter;
-import com.johnnyfivedev.mirtest.ui.adapter.news.NewsPagingDataSource;
+import com.johnnyfivedev.mirtest.ui.adapter.news.OnNextPageRequestedCallback;
+import com.johnnyfivedev.mirtest.ui.adapter.news.PagedListInitializer;
 
 import dagger.Module;
 import dagger.Provides;
@@ -23,12 +24,12 @@ public class NewsModule {
 
     private final Context context;
     private final ListItemClickListener listItemClickListener;
-    private final NewsPagingDataSource.OnNextPageRequestedCallback onNextPageRequestedCallback;
+    private final OnNextPageRequestedCallback onNextPageRequestedCallback;
 
 
     public NewsModule(Context context,
                       ListItemClickListener listItemClickListener,
-                      NewsPagingDataSource.OnNextPageRequestedCallback onNextPageRequestedCallback) {
+                      OnNextPageRequestedCallback onNextPageRequestedCallback) {
         this.context = context;
         this.listItemClickListener = listItemClickListener;
         this.onNextPageRequestedCallback = onNextPageRequestedCallback;
@@ -48,8 +49,8 @@ public class NewsModule {
 
     @Provides
     @NewsScope
-    NewsPagedListInitializer provideNewsPagedListBuilderHolder() {
-        return new NewsPagedListInitializer(onNextPageRequestedCallback);
+    PagedListInitializer<NewsItem> provideNewsPagedListBuilderHolder() {
+        return new PagedListInitializer<>(onNextPageRequestedCallback);
     }
 
     @Provides

@@ -20,9 +20,9 @@ import com.johnnyfivedev.mirtest.R;
 import com.johnnyfivedev.mirtest.di.feature.news.NewsModule;
 import com.johnnyfivedev.mirtest.presentation.presenter.NewsPresenter;
 import com.johnnyfivedev.mirtest.presentation.view.NewsView;
-import com.johnnyfivedev.mirtest.ui.adapter.news.NewsPagedListInitializer;
 import com.johnnyfivedev.mirtest.ui.adapter.news.NewsPagingAdapter;
-import com.johnnyfivedev.mirtest.ui.adapter.news.NewsPagingDataSource;
+import com.johnnyfivedev.mirtest.ui.adapter.news.OnNextPageRequestedCallback;
+import com.johnnyfivedev.mirtest.ui.adapter.news.PagedListInitializer;
 
 import java.util.List;
 
@@ -46,7 +46,7 @@ public class NewsFragment extends BaseFragment implements NewsView {
     NewsPagingAdapter adapter;
 
     @Inject
-    NewsPagedListInitializer newsPagedListInitializer;
+    PagedListInitializer<NewsItem> pagedListInitializer;
 
     private RecyclerView rvNews;
 
@@ -104,7 +104,7 @@ public class NewsFragment extends BaseFragment implements NewsView {
         return super.onOptionsItemSelected(item);
     }
 
-    private NewsPagingDataSource.OnNextPageRequestedCallback onNextPageRequestedCallback =
+    private OnNextPageRequestedCallback onNextPageRequestedCallback =
             (page, pageSize) -> presenter.onNewsPageRequested(page, pageSize);
 
 
@@ -114,12 +114,12 @@ public class NewsFragment extends BaseFragment implements NewsView {
 
     @Override
     public void buildNewsPaging() {
-        adapter.submitList(newsPagedListInitializer.buildPagedList());
+        adapter.submitList(pagedListInitializer.buildPagedList());
     }
 
     @Override
     public void setNews(List<NewsItem> items) {
-        newsPagedListInitializer.getDataSource().setItems(items);
+        pagedListInitializer.setItems(items);
         logIds(items);
     }
 
@@ -159,10 +159,6 @@ public class NewsFragment extends BaseFragment implements NewsView {
 
         rvNews = itemView.findViewById(R.id.rv_news);
 
-        setupNewsAdapter();
-    }
-
-    private void setupNewsAdapter() {
         rvNews.setItemAnimator(null);
         rvNews.setLayoutManager(new LinearLayoutManager(getActivity()));
         rvNews.setAdapter(adapter);
