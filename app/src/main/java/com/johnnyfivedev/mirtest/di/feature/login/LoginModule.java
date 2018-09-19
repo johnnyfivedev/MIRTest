@@ -1,5 +1,7 @@
 package com.johnnyfivedev.mirtest.di.feature.login;
 
+import android.support.v4.app.FragmentActivity;
+
 import com.johnnyfivedev.data.api.LoginApi;
 import com.johnnyfivedev.data.repositoryimpl.LoginRepositoryImpl;
 import com.johnnyfivedev.domain.repository.LoginRepository;
@@ -10,28 +12,39 @@ import com.johnnyfivedev.mirtest.OkHttpClientFactory;
 import com.johnnyfivedev.mirtest.ServerUrls;
 import com.johnnyfivedev.mirtest.di.scope.LoginScope;
 import com.johnnyfivedev.mirtest.presentation.presenter.LoginPresenter;
-
-import java.util.Collections;
+import com.johnnyfivedev.mirtest.ui.activity.login.LoginNavigator;
 
 import dagger.Module;
 import dagger.Provides;
-import okhttp3.CipherSuite;
-import okhttp3.ConnectionSpec;
-import okhttp3.OkHttpClient;
-import okhttp3.TlsVersion;
-import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
+import ru.terrakok.cicerone.Router;
 
 @Module
 public class LoginModule {
 
+    private final FragmentActivity activity;
+    private final int fragmentContainerId;
+
+
+    public LoginModule(FragmentActivity activity, int fragmentContainerId) {
+        this.activity = activity;
+        this.fragmentContainerId = fragmentContainerId;
+    }
+
     @Provides
     @LoginScope
-    LoginPresenter providePresenter(LoginUseCase loginUseCase,
+    LoginPresenter providePresenter(Router router,
+                                    LoginUseCase loginUseCase,
                                     IsAuthorizedUseCase isAuthorizedUseCase) {
-        return new LoginPresenter(loginUseCase, isAuthorizedUseCase);
+        return new LoginPresenter(router, loginUseCase, isAuthorizedUseCase);
+    }
+
+    @Provides
+    @LoginScope
+    LoginNavigator provideLoginNavigator() {
+        return new LoginNavigator(activity, fragmentContainerId);
     }
 
     @Provides

@@ -4,5 +4,5 @@ import com.arellomobile.mvp.MvpView;
 
 public interface LoginView extends MvpView {
 
-    void openNewsScreen();
+   // void openNewsScreen();
 }

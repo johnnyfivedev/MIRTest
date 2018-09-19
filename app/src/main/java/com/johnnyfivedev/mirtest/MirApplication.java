@@ -7,12 +7,16 @@ import com.johnnyfivedev.mirtest.di.application.ApplicationComponent;
 import com.johnnyfivedev.mirtest.di.application.ApplicationModule;
 import com.johnnyfivedev.mirtest.di.application.DaggerApplicationComponent;
 
+import ru.terrakok.cicerone.Cicerone;
+import ru.terrakok.cicerone.Router;
+
 
 public class MirApplication extends Application {
 
-    private ApplicationComponent applicationComponent;
-    public static MirApplication instance;
+    private static MirApplication instance;
 
+    private ApplicationComponent applicationComponent;
+    private Cicerone<Router> cicerone;
 
     //region ===================== Instance ======================
 
@@ -30,6 +34,7 @@ public class MirApplication extends Application {
         instance = this;
         initInjector();
         initSharedPreferencesWrapper();
+        initCicerone();
     }
 
     //endregion
@@ -39,6 +44,11 @@ public class MirApplication extends Application {
     public ApplicationComponent getApplicationComponent() {
         return this.applicationComponent;
     }
+
+    public Cicerone<Router> getCicerone() {
+        return cicerone;
+    }
+
 
     //endregion
 
@@ -52,6 +62,10 @@ public class MirApplication extends Application {
 
     private void initSharedPreferencesWrapper() {
         SharedPreferencesWrapper.init(this);
+    }
+
+    private void initCicerone() {
+        cicerone = Cicerone.create();
     }
 
     //endregion

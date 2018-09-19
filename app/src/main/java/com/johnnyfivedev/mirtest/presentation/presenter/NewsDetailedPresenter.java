@@ -7,18 +7,22 @@ import com.johnnyfivedev.mirtest.presentation.view.NewsDetailedView;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
+import ru.terrakok.cicerone.Router;
 
 @InjectViewState
 public class NewsDetailedPresenter extends BaseDisposablePresenter<NewsDetailedView> {
 
-    private Long newsItemId;
+    private final Router router;
+    private final Long newsItemId;
     private final GetNewsItemById getNewsItemById;
 
     private NewsItem newsItem;
 
 
-    public NewsDetailedPresenter(Long newsItemId,
+    public NewsDetailedPresenter(Router router,
+                                 Long newsItemId,
                                  GetNewsItemById getNewsItemById) {
+        this.router = router;
         this.newsItemId = newsItemId;
         this.getNewsItemById = getNewsItemById;
     }
@@ -44,9 +48,8 @@ public class NewsDetailedPresenter extends BaseDisposablePresenter<NewsDetailedV
     //region ===================== Presenter ======================
 
     public void onBackPressed() {
-        getViewState().closeScreen();
+        router.exit();
     }
-
 
     public void onSourceClicked() {
         getViewState().openSource(newsItem.getSourceUrl());

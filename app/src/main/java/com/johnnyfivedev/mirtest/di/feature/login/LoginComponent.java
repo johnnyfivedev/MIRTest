@@ -1,7 +1,7 @@
 package com.johnnyfivedev.mirtest.di.feature.login;
 
 import com.johnnyfivedev.mirtest.di.scope.LoginScope;
-import com.johnnyfivedev.mirtest.ui.activity.LoginActivity;
+import com.johnnyfivedev.mirtest.ui.activity.login.LoginActivity;
 
 import dagger.Subcomponent;
 

@@ -1,4 +1,4 @@
-package com.johnnyfivedev.mirtest.ui.activity;
+package com.johnnyfivedev.mirtest.ui.activity.login;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,9 +12,13 @@ import com.johnnyfivedev.mirtest.R;
 import com.johnnyfivedev.mirtest.di.feature.login.LoginModule;
 import com.johnnyfivedev.mirtest.presentation.presenter.LoginPresenter;
 import com.johnnyfivedev.mirtest.presentation.view.LoginView;
+import com.johnnyfivedev.mirtest.ui.activity.BaseMvpAppCompatActivity;
+import com.johnnyfivedev.mirtest.ui.activity.newscontainer.NewsContainerActivity;
 
 import javax.inject.Inject;
 import javax.inject.Provider;
+
+import ru.terrakok.cicerone.android.SupportAppNavigator;
 
 public class LoginActivity extends BaseMvpAppCompatActivity implements LoginView {
 
@@ -27,6 +31,14 @@ public class LoginActivity extends BaseMvpAppCompatActivity implements LoginView
     @ProvidePresenter
     LoginPresenter providePresenter() {
         return presenterProvider.get();
+    }
+
+    @Inject
+    LoginNavigator navigator;
+
+    @Override
+    public SupportAppNavigator getNavigator() {
+        return navigator;
     }
 
     private EditText etEmail;
@@ -55,18 +67,18 @@ public class LoginActivity extends BaseMvpAppCompatActivity implements LoginView
 
     //region ===================== View ======================
 
-    @Override
+   /* @Override
     public void openNewsScreen() {
         startActivity(new Intent(this, NewsContainerActivity.class));
         finish();
-    }
+    }*/
 
     //endregion
 
     //region ===================== DI ======================
 
     private void initDI() {
-        getAppComponent().plus(new LoginModule())
+        getAppComponent().plus(new LoginModule(this, 0))
                 .inject(this);
     }
 

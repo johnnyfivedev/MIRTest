@@ -11,7 +11,7 @@ public abstract class MvpBaseFragment extends MvpAppCompatFragment {
 
     public ApplicationComponent getAppComponent() {
         if (appComponent == null) {
-            appComponent = MirApplication.instance.getApplicationComponent();
+            appComponent = MirApplication.getInstance().getApplicationComponent();
         }
         return this.appComponent;
     }

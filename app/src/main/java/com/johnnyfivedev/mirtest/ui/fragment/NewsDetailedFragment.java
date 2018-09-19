@@ -17,6 +17,7 @@ import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.bumptech.glide.Glide;
 import com.johnnyfivedev.domain.entity.news.NewsItem;
+import com.johnnyfivedev.mirtest.BackButtonListener;
 import com.johnnyfivedev.mirtest.R;
 import com.johnnyfivedev.mirtest.di.feature.newsdetailed.NewsDetailedModule;
 import com.johnnyfivedev.mirtest.presentation.presenter.NewsDetailedPresenter;
@@ -27,7 +28,7 @@ import com.johnnyfivedev.mirtest.util.UiUtil;
 import javax.inject.Inject;
 import javax.inject.Provider;
 
-public class NewsDetailedFragment extends BaseFragment implements NewsDetailedView {
+public class NewsDetailedFragment extends BaseFragment implements NewsDetailedView, BackButtonListener {
 
     public static final String KEY_NEWS_ITEM_ID = "KEY_NEWS_ITEM_ID";
 
@@ -42,13 +43,13 @@ public class NewsDetailedFragment extends BaseFragment implements NewsDetailedVi
         return presenterProvider.get();
     }
 
-
     private ImageView ivImage;
     private SizeSwitchingTextView tvCategory;
     private SizeSwitchingTextView tvTitle;
     private SizeSwitchingTextView tvCreationDate;
     private SizeSwitchingTextView tvText;
     private TextView tvSource;
+
 
     //region ===================== New Instance ======================
 
@@ -83,13 +84,8 @@ public class NewsDetailedFragment extends BaseFragment implements NewsDetailedVi
 
     //region ===================== Callbacks ======================
 
-    private View.OnClickListener toolbarHomeButtonClickListener = v -> {
-        presenter.onBackPressed();
-    };
-
-    private View.OnClickListener sourceTextClickListener = v -> {
-        presenter.onSourceClicked();
-    };
+    private View.OnClickListener sourceTextClickListener = v ->
+            presenter.onSourceClicked();
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -107,6 +103,11 @@ public class NewsDetailedFragment extends BaseFragment implements NewsDetailedVi
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        presenter.onBackPressed();
     }
 
     //endregion
@@ -166,7 +167,7 @@ public class NewsDetailedFragment extends BaseFragment implements NewsDetailedVi
                 null,
                 R.drawable.ic_back,
                 true,
-                toolbarHomeButtonClickListener);
+                this);
 
         ivImage = itemView.findViewById(R.id.iv_image);
         tvCategory = itemView.findViewById(R.id.tv_category);

@@ -17,6 +17,7 @@ import com.johnnyfivedev.mirtest.ui.adapter.news.PagedListInitializer;
 
 import dagger.Module;
 import dagger.Provides;
+import ru.terrakok.cicerone.Router;
 
 
 @Module
@@ -37,9 +38,10 @@ public class NewsModule {
 
     @Provides
     @NewsScope
-    NewsPresenter providePresenter(GetNewsPageUseCase getNewsPageUseCase) {
-        return new NewsPresenter(getNewsPageUseCase);
+    NewsPresenter providePresenter(Router router, GetNewsPageUseCase getNewsPageUseCase) {
+        return new NewsPresenter(router, getNewsPageUseCase);
     }
+
 
     @Provides
     @NewsScope

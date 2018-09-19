@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.johnnyfivedev.domain.entity.news.NewsItem;
+import com.johnnyfivedev.mirtest.BackButtonListener;
 import com.johnnyfivedev.mirtest.ListItemClickListener;
 import com.johnnyfivedev.mirtest.R;
 import com.johnnyfivedev.mirtest.di.feature.news.NewsModule;
@@ -29,7 +30,7 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Provider;
 
-public class NewsFragment extends BaseFragment implements NewsView {
+public class NewsFragment extends BaseFragment implements NewsView, BackButtonListener {
 
     @InjectPresenter
     NewsPresenter presenter;
@@ -107,6 +108,10 @@ public class NewsFragment extends BaseFragment implements NewsView {
     private OnNextPageRequestedCallback onNextPageRequestedCallback =
             (page, pageSize) -> presenter.onNewsPageRequested(page, pageSize);
 
+    @Override
+    public void onBackPressed() {
+        presenter.onBackPressed();
+    }
 
     //endregion
 
@@ -121,18 +126,6 @@ public class NewsFragment extends BaseFragment implements NewsView {
     public void setNews(List<NewsItem> items) {
         pagedListInitializer.setItems(items);
         logIds(items);
-    }
-
-    @Override
-    public void openNewsDetailScreen(Long newsItemId) {
-        if (getActivity() != null) {
-            getActivity().getSupportFragmentManager()
-                    .beginTransaction()
-                    .hide(this)
-                    .add(R.id.fragment_news_layout_container, NewsDetailedFragment.newInstance(newsItemId))
-                    .addToBackStack(null)
-                    .commit();
-        }
     }
 
     //endregion

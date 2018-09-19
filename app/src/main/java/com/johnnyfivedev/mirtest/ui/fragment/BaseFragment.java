@@ -4,6 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
+import com.johnnyfivedev.mirtest.BackButtonListener;
 import com.johnnyfivedev.mirtest.R;
 
 
@@ -14,7 +15,7 @@ public abstract class BaseFragment extends MvpBaseFragment {
             Integer titleResId,
             Integer homeIconId,
             boolean backButtonEnabled,
-            View.OnClickListener toolbarNavigationButtonClickListener) {
+            BackButtonListener backButtonListener) {
         Toolbar toolbar = inflatedFragment.findViewById(R.id.toolbar);
         if (toolbar != null) {
             final AppCompatActivity activity = ((AppCompatActivity) getActivity());
@@ -29,7 +30,7 @@ public abstract class BaseFragment extends MvpBaseFragment {
                 } else if (backButtonEnabled) {
                     activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
                 }
-                toolbar.setNavigationOnClickListener(toolbarNavigationButtonClickListener);
+                toolbar.setNavigationOnClickListener(v -> backButtonListener.onBackPressed());
             }
         }
     }

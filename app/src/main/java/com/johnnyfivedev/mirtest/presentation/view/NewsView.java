@@ -12,9 +12,6 @@ import java.util.List;
 public interface NewsView extends MvpView {
 
     @StateStrategyType(OneExecutionStateStrategy.class)
-    void openNewsDetailScreen(Long newsItemId);
-
-    @StateStrategyType(OneExecutionStateStrategy.class)
     void setNews(List<NewsItem> newsItems);
 
     @StateStrategyType(OneExecutionStateStrategy.class)

@@ -9,6 +9,7 @@ import com.johnnyfivedev.mirtest.presentation.presenter.NewsDetailedPresenter;
 
 import dagger.Module;
 import dagger.Provides;
+import ru.terrakok.cicerone.Router;
 
 
 @Module
@@ -23,8 +24,8 @@ public class NewsDetailedModule {
 
     @Provides
     @NewsScope
-    NewsDetailedPresenter providePresenter(GetNewsItemById getNewsItemById) {
-        return new NewsDetailedPresenter(newsItemId, getNewsItemById);
+    NewsDetailedPresenter providePresenter(Router router, GetNewsItemById getNewsItemById) {
+        return new NewsDetailedPresenter(router, newsItemId, getNewsItemById);
     }
 
     @Provides

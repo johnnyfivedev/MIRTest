@@ -1,24 +1,24 @@
 package com.johnnyfivedev.mirtest.presentation.presenter;
 
 import com.arellomobile.mvp.InjectViewState;
-import com.johnnyfivedev.domain.entity.news.NewsItem;
 import com.johnnyfivedev.domain.usecase.news.GetNewsPageUseCase;
 import com.johnnyfivedev.domain.usecase.news.GetNewsPageUseCaseParams;
 import com.johnnyfivedev.mirtest.presentation.view.NewsView;
+import com.johnnyfivedev.mirtest.ui.Screens;
 
-import java.util.List;
-
-import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
+import ru.terrakok.cicerone.Router;
 
 @InjectViewState
 public class NewsPresenter extends BaseDisposablePresenter<NewsView> {
 
+    private final Router router;
     private final GetNewsPageUseCase getNewsPageUseCase;
 
 
-    public NewsPresenter(GetNewsPageUseCase getNewsPageUseCase) {
+    public NewsPresenter(Router router, GetNewsPageUseCase getNewsPageUseCase) {
+        this.router = router;
         this.getNewsPageUseCase = getNewsPageUseCase;
     }
 
@@ -35,7 +35,7 @@ public class NewsPresenter extends BaseDisposablePresenter<NewsView> {
     //region ===================== Presenter ======================
 
     public void onNewsItemClicked(Long newsItemId) {
-        getViewState().openNewsDetailScreen(newsItemId);
+        router.navigateTo(Screens.NEWS_DETAILED, newsItemId);
     }
 
     public void onNewsPageRequested(int page, int pageSize) {
@@ -52,6 +52,10 @@ public class NewsPresenter extends BaseDisposablePresenter<NewsView> {
 
     public void onRefreshClicked() {
         getViewState().buildNewsPaging();
+    }
+
+    public void onBackPressed() {
+        router.exit();
     }
 
     //endregion

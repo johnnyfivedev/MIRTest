@@ -1,20 +1,21 @@
-package com.johnnyfivedev.mirtest.ui.activity;
+package com.johnnyfivedev.mirtest.ui.activity.newscontainer;
 
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.Fragment;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
+import com.johnnyfivedev.mirtest.BackButtonListener;
 import com.johnnyfivedev.mirtest.R;
 import com.johnnyfivedev.mirtest.di.feature.newscontainer.NewsContainerModule;
 import com.johnnyfivedev.mirtest.presentation.presenter.NewsContainerPresenter;
 import com.johnnyfivedev.mirtest.presentation.view.NewsContainerView;
-import com.johnnyfivedev.mirtest.ui.fragment.NewsFragment;
+import com.johnnyfivedev.mirtest.ui.activity.BaseMvpAppCompatActivity;
 
 import javax.inject.Inject;
 import javax.inject.Provider;
+
+import ru.terrakok.cicerone.android.SupportAppNavigator;
 
 public class NewsContainerActivity extends BaseMvpAppCompatActivity implements NewsContainerView {
 
@@ -27,6 +28,14 @@ public class NewsContainerActivity extends BaseMvpAppCompatActivity implements N
     @ProvidePresenter
     NewsContainerPresenter providePresenter() {
         return presenterProvider.get();
+    }
+
+    @Inject
+    NewsNavigator navigator;
+
+    @Override
+    public SupportAppNavigator getNavigator() {
+        return navigator;
     }
 
 
@@ -45,25 +54,12 @@ public class NewsContainerActivity extends BaseMvpAppCompatActivity implements N
 
     @Override
     public void onBackPressed() {
-        int count = getSupportFragmentManager().getBackStackEntryCount();
-        if (count == 1) {
+        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.fragment_news_layout_container);
+        if (getSupportFragmentManager().getBackStackEntryCount() < 2) {
             finish();
-        } else {
-            getSupportFragmentManager().popBackStack();
+        } else if (fragment instanceof BackButtonListener) {
+            ((BackButtonListener) fragment).onBackPressed();
         }
-    }
-
-    //endregion
-
-    //region ===================== View ======================
-
-    @Override
-    public void openNewsScreen() {
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.add(R.id.fragment_news_layout_container, NewsFragment.newInstance());
-        fragmentTransaction.commit();
     }
 
     //endregion
@@ -71,7 +67,7 @@ public class NewsContainerActivity extends BaseMvpAppCompatActivity implements N
     //region ===================== DI ======================
 
     private void initDI() {
-        getAppComponent().plus(new NewsContainerModule())
+        getAppComponent().plus(new NewsContainerModule(this, R.id.fragment_news_layout_container))
                 .inject(this);
     }
 
