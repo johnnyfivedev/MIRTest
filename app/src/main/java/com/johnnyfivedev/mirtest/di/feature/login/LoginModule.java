@@ -20,6 +20,7 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 import ru.terrakok.cicerone.Router;
+import ru.terrakok.cicerone.android.SupportAppNavigator;
 
 @Module
 public class LoginModule {
@@ -43,7 +44,7 @@ public class LoginModule {
 
     @Provides
     @LoginScope
-    LoginNavigator provideLoginNavigator() {
+    SupportAppNavigator provideLoginNavigator() {
         return new LoginNavigator(activity, fragmentContainerId);
     }
 

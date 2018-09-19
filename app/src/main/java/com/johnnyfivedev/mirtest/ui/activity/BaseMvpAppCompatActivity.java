@@ -4,16 +4,18 @@ import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.johnnyfivedev.mirtest.MirApplication;
 import com.johnnyfivedev.mirtest.di.application.ApplicationComponent;
 
+import javax.inject.Inject;
+
 import ru.terrakok.cicerone.android.SupportAppNavigator;
 
-
 public abstract class BaseMvpAppCompatActivity extends MvpAppCompatActivity {
+
+    @Inject
+    SupportAppNavigator supportAppNavigator;
 
     public ApplicationComponent getAppComponent() {
         return ((MirApplication) getApplication()).getApplicationComponent();
     }
-
-    public abstract SupportAppNavigator getNavigator();
 
     //region ===================== Lifecycle ======================
 
@@ -23,7 +25,7 @@ public abstract class BaseMvpAppCompatActivity extends MvpAppCompatActivity {
         MirApplication.getInstance()
                 .getCicerone()
                 .getNavigatorHolder()
-                .setNavigator(getNavigator());
+                .setNavigator(supportAppNavigator);
     }
 
     @Override

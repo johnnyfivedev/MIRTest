@@ -42,7 +42,6 @@ public class NewsModule {
         return new NewsPresenter(router, getNewsPageUseCase);
     }
 
-
     @Provides
     @NewsScope
     NewsPagingAdapter provideNewsPagingAdapter(NewsItemDiffUtilCallback diffUtilCallback) {

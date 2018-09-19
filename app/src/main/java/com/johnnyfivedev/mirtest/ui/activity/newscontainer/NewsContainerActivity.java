@@ -30,14 +30,6 @@ public class NewsContainerActivity extends BaseMvpAppCompatActivity implements N
         return presenterProvider.get();
     }
 
-    @Inject
-    NewsNavigator navigator;
-
-    @Override
-    public SupportAppNavigator getNavigator() {
-        return navigator;
-    }
-
 
     //region ===================== Lifecycle ======================
 
